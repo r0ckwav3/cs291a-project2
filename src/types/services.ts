@@ -12,6 +12,7 @@ import type {
   UpdateExpertProfileRequest,
 } from "./expert";
 import type { ConnectionStatus } from "./errors";
+import { isUser } from "./user";
 
 // Authentication Service Interface
 export interface AuthService {
@@ -25,6 +26,29 @@ export interface AuthService {
 export interface RegisterRequest {
   username: string;
   password: string;
+}
+
+interface RegisterResponseUser {
+  id: string;
+  username: string;
+  created_at: string;
+  last_active_at: string;
+}
+
+export interface RegisterResponse {
+  user: RegisterResponseUser;
+  token: string;
+}
+
+export function isRegisterResponse(obj: any): obj is RegisterResponse {
+  return (
+    obj.token !== undefined &&
+    obj.user !== undefined &&
+    obj.user.id !== undefined &&
+    obj.user.username !== undefined &&
+    obj.user.created_at !== undefined &&
+    obj.user.last_active_at !== undefined
+  );
 }
 
 // Chat Service Interface

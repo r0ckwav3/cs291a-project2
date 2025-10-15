@@ -1,5 +1,6 @@
 // User types
 export type { User } from "./user";
+export { isUser } from "./user";
 
 // Conversation types
 export type {
@@ -23,11 +24,13 @@ export type {
 export type {
   AuthService,
   RegisterRequest,
+  RegisterResponse,
   ChatService,
   UpdateService,
   ChatServiceFactory,
   UpdateServiceFactory,
 } from "./services";
+export { isRegisterResponse } from "./services";
 
 // Configuration types
 export type {

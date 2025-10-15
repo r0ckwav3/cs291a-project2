@@ -1,9 +1,11 @@
 import type {
   AuthService,
   RegisterRequest,
+  RegisterResponse,
   User,
   AuthServiceConfig,
 } from "@/types";
+import { isRegisterResponse, isUser } from "@/types";
 import TokenManager from "@/services/TokenManager";
 
 /**
@@ -23,19 +25,64 @@ export class ApiAuthService implements AuthService {
     endpoint: string,
     options: RequestInit = {},
   ): Promise<T> {
-    // TODO: Implement the makeRequest helper method
-    // This should:
-    // 1. Construct the full URL using this.baseUrl and endpoint
-    // 2. Set up default headers including 'Content-Type': 'application/json'
-    // 3. Use {credentials: 'include'} for session cookies
-    // 4. Make the fetch request with the provided options
-    // 5. Handle non-ok responses by throwing an error with status and message
-    // 6. Return the parsed JSON response
+    // 1. Construct the full URL
+    const url = `${this.baseUrl}${endpoint}`;
 
-    throw new Error("makeRequest method not implemented");
+    // 2. Set up default headers
+    const defaultHeaders: HeadersInit = {
+      "Content-Type": "application/json",
+      ...(options.headers || {}),
+    };
+
+    // 3. Use {credentials: 'include'} for session cookies
+    const fetchOptions: RequestInit = {
+      ...options,
+      headers: defaultHeaders,
+      credentials: "include",
+    };
+
+    // 4. Make the fetch request
+    const response = await fetch(url, fetchOptions);
+
+    // 5. Handle non-ok responses
+    if (!response.ok) {
+      let errorMessage;
+      try {
+        const errorData = await response.json();
+        if (errorData && errorData.error) {
+          errorMessage = errorData.error;
+        } else if (errorData && errorData.errors) {
+          errorMessage = JSON.stringify(errorData.errors);
+        }
+      } catch {
+        errorMessage = "Unknown error";
+      }
+      throw new Error(`Request failed (${response.status}): ${errorMessage}`);
+    }
+
+    // 6. Return the parsed JSON response
+    return response.json();
   }
 
   async login(username: string, password: string): Promise<User> {
+    const body = { username, password };
+    const options: RequestInit = {
+      method: "POST",
+      body: JSON.stringify(body),
+    };
+    const response = await this.makeRequest("/auth/login", options);
+    console.log(response);
+
+    // {
+    //   "user": {
+    //     "id": 1,
+    //     "username": "john_doe",
+    //     "created_at": "2024-01-15T10:30:00Z",
+    //     "last_active_at": "2024-01-15T10:30:00Z"
+    //   },
+    //   "token": "jwt_token_string"
+    // }
+
     // TODO: Implement login method
     // This should:
     // 1. Make a request to the appropriate endpoint
@@ -48,15 +95,38 @@ export class ApiAuthService implements AuthService {
   }
 
   async register(userData: RegisterRequest): Promise<User> {
-    // TODO: Implement register method
     // This should:
     // 1. Make a request to the appropriate endpoint
     // 2. Store the token using this.tokenManager.setToken(response.token)
     // 3. Return the user object
-    //
-    // See API_SPECIFICATION.md for endpoint details
 
-    throw new Error("register method not implemented");
+    const body = {
+      username: userData.username,
+      password: userData.password,
+    };
+    const options: RequestInit = {
+      method: "POST",
+      body: JSON.stringify(body),
+    };
+
+    const response = await this.makeRequest<RegisterResponse>(
+      "/auth/register",
+      options,
+    );
+    if (!isRegisterResponse(response)) {
+      throw new Error("response is in an unexpected format");
+    }
+
+    this.tokenManager.setToken(response.token);
+
+    const user: User = {
+      id: response.user.id,
+      username: response.user.username,
+      createdAt: response.user.created_at,
+      lastActiveAt: response.user.last_active_at,
+    };
+
+    return user;
   }
 
   async logout(): Promise<void> {
