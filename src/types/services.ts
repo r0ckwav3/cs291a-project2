@@ -28,19 +28,19 @@ export interface RegisterRequest {
   password: string;
 }
 
-interface RegisterResponseUser {
+interface LoginResponseUser {
   id: string;
   username: string;
   created_at: string;
   last_active_at: string;
 }
 
-export interface RegisterResponse {
-  user: RegisterResponseUser;
+export interface LoginResponse {
+  user: LoginResponseUser;
   token: string;
 }
 
-export function isRegisterResponse(obj: any): obj is RegisterResponse {
+export function isLoginResponse(obj: any): obj is LoginResponse {
   return (
     obj.token !== undefined &&
     obj.user !== undefined &&

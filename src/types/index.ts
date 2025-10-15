@@ -24,13 +24,13 @@ export type {
 export type {
   AuthService,
   RegisterRequest,
-  RegisterResponse,
+  LoginResponse,
   ChatService,
   UpdateService,
   ChatServiceFactory,
   UpdateServiceFactory,
 } from "./services";
-export { isRegisterResponse } from "./services";
+export { isLoginResponse } from "./services";
 
 // Configuration types
 export type {

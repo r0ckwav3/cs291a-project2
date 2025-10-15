@@ -1,11 +1,11 @@
 import type {
   AuthService,
   RegisterRequest,
-  RegisterResponse,
+  LoginResponse,
   User,
   AuthServiceConfig,
 } from "@/types";
-import { isRegisterResponse, isUser } from "@/types";
+import { isLoginResponse } from "@/types";
 import TokenManager from "@/services/TokenManager";
 
 /**
@@ -65,33 +65,35 @@ export class ApiAuthService implements AuthService {
   }
 
   async login(username: string, password: string): Promise<User> {
+    // This should:
+    // 1. Make a request to the appropriate endpoint
+    // 2. Store the token using this.tokenManager.setToken(response.token)
+    // 3. Return the user object
+
     const body = { username, password };
     const options: RequestInit = {
       method: "POST",
       body: JSON.stringify(body),
     };
-    const response = await this.makeRequest("/auth/login", options);
-    console.log(response);
 
-    // {
-    //   "user": {
-    //     "id": 1,
-    //     "username": "john_doe",
-    //     "created_at": "2024-01-15T10:30:00Z",
-    //     "last_active_at": "2024-01-15T10:30:00Z"
-    //   },
-    //   "token": "jwt_token_string"
-    // }
+    const response = await this.makeRequest<LoginResponse>(
+      "/auth/login",
+      options,
+    );
+    if (!isLoginResponse(response)) {
+      throw new Error("response is in an unexpected format");
+    }
 
-    // TODO: Implement login method
-    // This should:
-    // 1. Make a request to the appropriate endpoint
-    // 2. Store the token using this.tokenManager.setToken(response.token)
-    // 3. Return the user object
-    //
-    // See API_SPECIFICATION.md for endpoint details
+    this.tokenManager.setToken(response.token);
 
-    throw new Error("login method not implemented");
+    const user: User = {
+      id: response.user.id,
+      username: response.user.username,
+      createdAt: response.user.created_at,
+      lastActiveAt: response.user.last_active_at,
+    };
+
+    return user;
   }
 
   async register(userData: RegisterRequest): Promise<User> {
@@ -109,11 +111,11 @@ export class ApiAuthService implements AuthService {
       body: JSON.stringify(body),
     };
 
-    const response = await this.makeRequest<RegisterResponse>(
+    const response = await this.makeRequest<LoginResponse>(
       "/auth/register",
       options,
     );
-    if (!isRegisterResponse(response)) {
+    if (!isLoginResponse(response)) {
       throw new Error("response is in an unexpected format");
     }
 
@@ -130,15 +132,19 @@ export class ApiAuthService implements AuthService {
   }
 
   async logout(): Promise<void> {
-    // TODO: Implement logout method
-    // This should:
-    // 1. Make a request to the appropriate endpoint
-    // 2. Handle errors gracefully (continue with logout even if API call fails)
-    // 3. Clear the token using this.tokenManager.clearToken()
-    //
-    // See API_SPECIFICATION.md for endpoint details
+    const options: RequestInit = {
+      method: "POST",
+    };
 
-    throw new Error("logout method not implemented");
+    try {
+      const response = await this.makeRequest("/auth/logout", options);
+      if (!response || !response.message) {
+        throw new Error("unexpected response from logout");
+      }
+    } finally {
+      console.log("logged out");
+      this.tokenManager.clearToken();
+    }
   }
 
   async refreshToken(): Promise<User> {
