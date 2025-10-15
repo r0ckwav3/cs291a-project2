@@ -1,11 +1,12 @@
 import type {
   AuthService,
   RegisterRequest,
+  LoginResponseUser,
   LoginResponse,
   User,
   AuthServiceConfig,
 } from "@/types";
-import { isLoginResponse } from "@/types";
+import { isLoginResponse, isLoginResponseUser } from "@/types";
 import TokenManager from "@/services/TokenManager";
 
 /**
@@ -148,26 +149,66 @@ export class ApiAuthService implements AuthService {
   }
 
   async refreshToken(): Promise<User> {
-    // TODO: Implement refreshToken method
     // This should:
     // 1. Make a request to the appropriate endpoint
     // 3. Update the stored token using this.tokenManager.setToken(response.token)
     // 4. Return the user object
-    //
-    // See API_SPECIFICATION.md for endpoint details
 
-    throw new Error("refreshToken method not implemented");
+    const options: RequestInit = {
+      method: "POST",
+    };
+
+    const response = await this.makeRequest<LoginResponse>(
+      "/auth/refresh",
+      options,
+    );
+    if (!isLoginResponse(response)) {
+      throw new Error("response is in an unexpected format");
+    }
+
+    this.tokenManager.setToken(response.token);
+
+    const user: User = {
+      id: response.user.id,
+      username: response.user.username,
+      createdAt: response.user.created_at,
+      lastActiveAt: response.user.last_active_at,
+    };
+
+    return user;
   }
 
   async getCurrentUser(): Promise<User | null> {
-    // TODO: Implement getCurrentUser method
     // This should:
     // 1. Make a request to the appropriate endpoint
     // 2. Return the user object if successful
     // 3. If the request fails (e.g., session invalid), clear the token and return null
-    //
-    // See API_SPECIFICATION.md for endpoint details
 
-    throw new Error("getCurrentUser method not implemented");
+    const options: RequestInit = {
+      method: "GET",
+    };
+
+    try {
+      const response = await this.makeRequest<LoginResponseUser>(
+        "/auth/me",
+        options,
+      );
+
+      if (!isLoginResponseUser(response)) {
+        throw new Error("response is in an unexpected format");
+      }
+
+      const user: User = {
+        id: response.id,
+        username: response.username,
+        createdAt: response.created_at,
+        lastActiveAt: response.last_active_at,
+      };
+
+      return user;
+    } catch {
+      this.tokenManager.clearToken();
+      return null;
+    }
   }
 }
