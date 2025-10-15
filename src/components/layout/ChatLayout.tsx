@@ -1,11 +1,11 @@
-import type { ReactNode } from 'react';
-import Header from './Header';
-import Sidebar from './Sidebar';
-import MainContent from './MainContent';
-import type { Conversation, ExpertQueue } from '@/types';
+import type { ReactNode } from "react";
+import Header from "./Header";
+import Sidebar from "./Sidebar";
+import MainContent from "./MainContent";
+import type { Conversation, ExpertQueue } from "@/types";
 
 interface ChatLayoutProps {
-  mode: 'user' | 'expert';
+  mode: "user" | "expert";
   onModeToggle: () => void;
   onLogout: () => void;
   conversations: Conversation[];

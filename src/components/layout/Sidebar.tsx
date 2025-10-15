@@ -1,9 +1,9 @@
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import type { Conversation, ExpertQueue } from '@/types';
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import type { Conversation, ExpertQueue } from "@/types";
 
 interface SidebarProps {
-  mode: 'user' | 'expert';
+  mode: "user" | "expert";
   conversations: Conversation[];
   expertQueue: ExpertQueue | null;
   selectedConversationId?: string;
@@ -55,18 +55,18 @@ export default function Sidebar({
     });
   };
 
-  if (mode === 'user') {
+  if (mode === "user") {
     const sortedConversations = sortUserConversations(conversations);
     return (
       <div className="space-y-2 overflow-y-auto">
         <Button onClick={onNewConversation} className="mb-4 w-full">
           + New
         </Button>
-        {sortedConversations.map(conv => (
+        {sortedConversations.map((conv) => (
           <Card
             key={conv.id}
             className={`cursor-pointer pt-1 pb-0 ${
-              conv.id === selectedConversationId ? 'border-blue-500' : ''
+              conv.id === selectedConversationId ? "border-blue-500" : ""
             }`}
             onClick={() => onConversationSelect(conv.id)}
           >
@@ -77,12 +77,12 @@ export default function Sidebar({
                 </CardTitle>
                 <span
                   className={`text-xs py-0.5 ${
-                    conv.assignedExpertId ? '' : 'opacity-70'
+                    conv.assignedExpertId ? "" : "opacity-70"
                   }`}
                 >
                   {conv.assignedExpertId
                     ? `Assigned Expert: ${conv.assignedExpertUsername || conv.assignedExpertId}`
-                    : 'Waiting for Expert'}
+                    : "Waiting for Expert"}
                 </span>
               </div>
             </CardHeader>
@@ -98,7 +98,7 @@ export default function Sidebar({
       {/* Unclaimed conversations */}
       <div>
         <h3 className="font-bold mb-2">Unclaimed</h3>
-        {unclaimedConversations.map(conv => (
+        {unclaimedConversations.map((conv) => (
           <Card key={conv.id} className="cursor-pointer pt-1 pb-1 mb-2 ">
             <CardHeader
               className="px-1"
@@ -113,7 +113,7 @@ export default function Sidebar({
                 onClick={() => onClaimConversation(conv.id)}
                 disabled={isClaimingConversation}
               >
-                {isClaimingConversation ? 'Claiming...' : 'Claim'}
+                {isClaimingConversation ? "Claiming..." : "Claim"}
               </Button>
               <Button
                 variant="outline"
@@ -129,11 +129,11 @@ export default function Sidebar({
       {/* My conversations */}
       <div>
         <h3 className="font-bold mb-2">My Conversations</h3>
-        {myConversations.map(conv => (
+        {myConversations.map((conv) => (
           <Card
             key={conv.id}
             className={`cursor-pointer py-1 mb-2 ${
-              conv.id === selectedConversationId ? 'border-blue-500' : ''
+              conv.id === selectedConversationId ? "border-blue-500" : ""
             }`}
             onClick={() => onConversationSelect(conv.id)}
           >

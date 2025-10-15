@@ -4,10 +4,10 @@ import {
   useState,
   useEffect,
   useCallback,
-} from 'react';
-import type { ReactNode } from 'react';
-import ConfigService from '@/services/ConfigService';
-import type { AppConfig, ServiceConfig } from '@/types';
+} from "react";
+import type { ReactNode } from "react";
+import ConfigService from "@/services/ConfigService";
+import type { AppConfig, ServiceConfig } from "@/types";
 
 interface ConfigContextType {
   // State
@@ -23,8 +23,8 @@ interface ConfigContextType {
 
   // Utility
   getAvailableOptions: () => {
-    backendModes: readonly ('dummy' | 'api')[];
-    updateModes: readonly ('polling' | 'sse' | 'websocket' | 'push')[];
+    backendModes: readonly ("dummy" | "api")[];
+    updateModes: readonly ("polling" | "sse" | "websocket" | "push")[];
     defaultConfig: AppConfig;
   };
   clearError: () => void;
@@ -38,17 +38,17 @@ interface ConfigProviderProps {
 
 export function ConfigProvider({ children }: ConfigProviderProps) {
   const [config, setConfig] = useState<AppConfig>(() =>
-    ConfigService.getInstance().getConfig()
+    ConfigService.getInstance().getConfig(),
   );
   const [serviceConfig, setServiceConfig] = useState<ServiceConfig>(() =>
-    ConfigService.getInstance().getServiceConfig()
+    ConfigService.getInstance().getServiceConfig(),
   );
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   // Subscribe to configuration changes
   useEffect(() => {
-    const unsubscribe = ConfigService.getInstance().subscribe(newConfig => {
+    const unsubscribe = ConfigService.getInstance().subscribe((newConfig) => {
       setConfig(newConfig);
       setServiceConfig(ConfigService.getInstance().getServiceConfig());
     });
@@ -69,7 +69,7 @@ export function ConfigProvider({ children }: ConfigProviderProps) {
 
         if (!validation.isValid) {
           setError(
-            `Configuration validation failed: ${validation.errors.join(', ')}`
+            `Configuration validation failed: ${validation.errors.join(", ")}`,
           );
           setIsLoading(false);
           return;
@@ -79,13 +79,13 @@ export function ConfigProvider({ children }: ConfigProviderProps) {
         ConfigService.getInstance().updateConfig(updates);
       } catch (err) {
         const errorMessage =
-          err instanceof Error ? err.message : 'Failed to update configuration';
+          err instanceof Error ? err.message : "Failed to update configuration";
         setError(errorMessage);
       } finally {
         setIsLoading(false);
       }
     },
-    [config]
+    [config],
   );
 
   const resetConfig = useCallback(() => {
@@ -96,7 +96,7 @@ export function ConfigProvider({ children }: ConfigProviderProps) {
       ConfigService.getInstance().resetConfig();
     } catch (err) {
       const errorMessage =
-        err instanceof Error ? err.message : 'Failed to reset configuration';
+        err instanceof Error ? err.message : "Failed to reset configuration";
       setError(errorMessage);
     } finally {
       setIsLoading(false);
@@ -140,7 +140,7 @@ export function ConfigProvider({ children }: ConfigProviderProps) {
 export function useConfig() {
   const context = useContext(ConfigContext);
   if (context === undefined) {
-    throw new Error('useConfig must be used within a ConfigProvider');
+    throw new Error("useConfig must be used within a ConfigProvider");
   }
   return context;
 }

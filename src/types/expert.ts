@@ -1,4 +1,4 @@
-import type { Conversation } from './conversation';
+import type { Conversation } from "./conversation";
 
 export interface ExpertProfile {
   id: string;
@@ -44,7 +44,7 @@ export interface ExpertAssignment {
   expertId: string;
   assignedAt: string;
   unassignedAt?: string;
-  status: 'active' | 'unassigned' | 'resolved';
+  status: "active" | "unassigned" | "resolved";
 }
 
 export interface UpdateExpertProfileRequest {

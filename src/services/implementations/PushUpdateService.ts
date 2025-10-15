@@ -4,7 +4,7 @@ import type {
   Message,
   ExpertQueue,
   ConnectionStatus,
-} from '@/types';
+} from "@/types";
 
 interface PushUpdateServiceConfig {
   maxReconnectAttempts: number;
@@ -37,7 +37,7 @@ export class PushUpdateService implements UpdateService {
     this.notifyConnectionStatusChange({ connected: true });
 
     // TODO: Implement push notification service in future step
-    console.log('PushUpdateService started');
+    console.log("PushUpdateService started");
   }
 
   async stop(): Promise<void> {
@@ -48,7 +48,7 @@ export class PushUpdateService implements UpdateService {
     this.isRunningFlag = false;
     this.notifyConnectionStatusChange({ connected: false });
 
-    console.log('PushUpdateService stopped');
+    console.log("PushUpdateService stopped");
   }
 
   isRunning(): boolean {
@@ -86,17 +86,17 @@ export class PushUpdateService implements UpdateService {
   }
 
   offConnectionStatusChange(
-    callback: (status: ConnectionStatus) => void
+    callback: (status: ConnectionStatus) => void,
   ): void {
     this.connectionStatusCallbacks.delete(callback);
   }
 
   private notifyConnectionStatusChange(status: ConnectionStatus): void {
-    this.connectionStatusCallbacks.forEach(callback => {
+    this.connectionStatusCallbacks.forEach((callback) => {
       try {
         callback(status);
       } catch (error) {
-        console.error('Error in connection status callback:', error);
+        console.error("Error in connection status callback:", error);
       }
     });
   }

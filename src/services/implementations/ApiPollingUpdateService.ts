@@ -4,14 +4,14 @@ import type {
   Message,
   ExpertQueue,
   ConnectionStatus,
-} from '@/types';
-import TokenManager from '@/services/TokenManager';
+} from "@/types";
+import TokenManager from "@/services/TokenManager";
 
 interface PollingUpdateServiceConfig {
   interval: number;
   baseUrl?: string;
   userId?: string;
-  userRole?: 'initiator' | 'expert';
+  userRole?: "initiator" | "expert";
 }
 
 interface PollingState {
@@ -21,7 +21,7 @@ interface PollingState {
   retryCount: number;
   maxRetries: number;
   userId: string | null;
-  userRole: 'initiator' | 'expert' | null;
+  userRole: "initiator" | "expert" | null;
 }
 
 /**
@@ -69,7 +69,7 @@ export class ApiPollingUpdateService implements UpdateService {
       this.pollForUpdates();
     }, this.config.interval);
 
-    console.log('ApiPollingUpdateService started');
+    console.log("ApiPollingUpdateService started");
   }
 
   async stop(): Promise<void> {
@@ -85,7 +85,7 @@ export class ApiPollingUpdateService implements UpdateService {
       this.intervalId = null;
     }
 
-    console.log('ApiPollingUpdateService stopped');
+    console.log("ApiPollingUpdateService stopped");
   }
 
   isRunning(): boolean {
@@ -123,7 +123,7 @@ export class ApiPollingUpdateService implements UpdateService {
   }
 
   offConnectionStatusChange(
-    callback: (status: ConnectionStatus) => void
+    callback: (status: ConnectionStatus) => void,
   ): void {
     this.connectionStatusCallbacks.delete(callback);
   }
@@ -145,13 +145,13 @@ export class ApiPollingUpdateService implements UpdateService {
       // Notify successful connection
       this.notifyConnectionStatusChange({ connected: true });
     } catch (error) {
-      console.error('Polling error:', error);
+      console.error("Polling error:", error);
       this.state.retryCount++;
 
       if (this.state.retryCount >= this.state.maxRetries) {
         this.notifyConnectionStatusChange({
           connected: false,
-          error: error instanceof Error ? error.message : 'Unknown error',
+          error: error instanceof Error ? error.message : "Unknown error",
         });
         // Stop polling after max retries
         await this.stop();
@@ -175,11 +175,11 @@ export class ApiPollingUpdateService implements UpdateService {
       let latestTimestamp = this.state.lastConversationUpdate;
 
       for (const conversation of updates) {
-        this.conversationCallbacks.forEach(callback => {
+        this.conversationCallbacks.forEach((callback) => {
           try {
             callback(conversation);
           } catch (error) {
-            console.error('Error in conversation callback:', error);
+            console.error("Error in conversation callback:", error);
           }
         });
 
@@ -200,7 +200,7 @@ export class ApiPollingUpdateService implements UpdateService {
         this.state.lastConversationUpdate = latestTimestamp;
       }
     } catch (error) {
-      console.error('Error polling conversation updates:', error);
+      console.error("Error polling conversation updates:", error);
       throw error;
     }
   }
@@ -215,11 +215,11 @@ export class ApiPollingUpdateService implements UpdateService {
       let latestTimestamp = this.state.lastMessageUpdate;
 
       for (const message of updates) {
-        this.messageCallbacks.forEach(callback => {
+        this.messageCallbacks.forEach((callback) => {
           try {
             callback(message);
           } catch (error) {
-            console.error('Error in message callback:', error);
+            console.error("Error in message callback:", error);
           }
         });
 
@@ -237,7 +237,7 @@ export class ApiPollingUpdateService implements UpdateService {
         this.state.lastMessageUpdate = latestTimestamp;
       }
     } catch (error) {
-      console.error('Error polling message updates:', error);
+      console.error("Error polling message updates:", error);
       throw error;
     }
   }
@@ -252,11 +252,11 @@ export class ApiPollingUpdateService implements UpdateService {
       let latestTimestamp = this.state.lastExpertQueueUpdate;
 
       for (const queue of updates) {
-        this.expertQueueCallbacks.forEach(callback => {
+        this.expertQueueCallbacks.forEach((callback) => {
           try {
             callback(queue);
           } catch (error) {
-            console.error('Error in expert queue callback:', error);
+            console.error("Error in expert queue callback:", error);
           }
         });
 
@@ -279,7 +279,7 @@ export class ApiPollingUpdateService implements UpdateService {
         this.state.lastExpertQueueUpdate = latestTimestamp;
       }
     } catch (error) {
-      console.error('Error polling expert queue updates:', error);
+      console.error("Error polling expert queue updates:", error);
       throw error;
     }
   }
@@ -289,7 +289,7 @@ export class ApiPollingUpdateService implements UpdateService {
     const token = this.tokenManager.getToken();
     if (!this.state.userId || !token) {
       console.warn(
-        'ApiPollingUpdateService: Missing user context or auth token'
+        "ApiPollingUpdateService: Missing user context or auth token",
       );
       return [];
     }
@@ -302,12 +302,12 @@ export class ApiPollingUpdateService implements UpdateService {
       const url = `${this.config.baseUrl}/api/conversations/updates${sinceParam}`;
 
       const response = await fetch(url, {
-        method: 'GET',
+        method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        credentials: 'include', // Include cookies
+        credentials: "include", // Include cookies
       });
 
       if (!response.ok) {
@@ -317,7 +317,7 @@ export class ApiPollingUpdateService implements UpdateService {
       const conversations: Conversation[] = await response.json();
       return conversations;
     } catch (error) {
-      console.error('Error fetching conversation updates:', error);
+      console.error("Error fetching conversation updates:", error);
       throw error;
     }
   }
@@ -326,7 +326,7 @@ export class ApiPollingUpdateService implements UpdateService {
     const token = this.tokenManager.getToken();
     if (!this.state.userId || !token) {
       console.warn(
-        'ApiPollingUpdateService: Missing user context or auth token'
+        "ApiPollingUpdateService: Missing user context or auth token",
       );
       return [];
     }
@@ -339,12 +339,12 @@ export class ApiPollingUpdateService implements UpdateService {
       const url = `${this.config.baseUrl}/api/messages/updates${sinceParam}`;
 
       const response = await fetch(url, {
-        method: 'GET',
+        method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        credentials: 'include', // Include cookies
+        credentials: "include", // Include cookies
       });
 
       if (!response.ok) {
@@ -354,16 +354,16 @@ export class ApiPollingUpdateService implements UpdateService {
       const messages: Message[] = await response.json();
       return messages;
     } catch (error) {
-      console.error('Error fetching message updates:', error);
+      console.error("Error fetching message updates:", error);
       throw error;
     }
   }
 
   private async fetchExpertQueueUpdates(): Promise<ExpertQueue[]> {
     const token = this.tokenManager.getToken();
-    if (!this.state.userId || !token || this.state.userRole !== 'expert') {
+    if (!this.state.userId || !token || this.state.userRole !== "expert") {
       console.warn(
-        'ApiPollingUpdateService: Expert queue polling requires expert role'
+        "ApiPollingUpdateService: Expert queue polling requires expert role",
       );
       return [];
     }
@@ -376,12 +376,12 @@ export class ApiPollingUpdateService implements UpdateService {
       const url = `${this.config.baseUrl}/api/expert-queue/updates${sinceParam}`;
 
       const response = await fetch(url, {
-        method: 'GET',
+        method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        credentials: 'include', // Include cookies
+        credentials: "include", // Include cookies
       });
 
       if (!response.ok) {
@@ -391,17 +391,17 @@ export class ApiPollingUpdateService implements UpdateService {
       const expertQueues: ExpertQueue[] = await response.json();
       return expertQueues;
     } catch (error) {
-      console.error('Error fetching expert queue updates:', error);
+      console.error("Error fetching expert queue updates:", error);
       throw error;
     }
   }
 
   private notifyConnectionStatusChange(status: ConnectionStatus): void {
-    this.connectionStatusCallbacks.forEach(callback => {
+    this.connectionStatusCallbacks.forEach((callback) => {
       try {
         callback(status);
       } catch (error) {
-        console.error('Error in connection status callback:', error);
+        console.error("Error in connection status callback:", error);
       }
     });
   }
@@ -442,25 +442,25 @@ export class ApiPollingUpdateService implements UpdateService {
   // User context management methods
   public setUserContext(
     userId: string,
-    userRole: 'initiator' | 'expert'
+    userRole: "initiator" | "expert",
   ): void {
     this.state.userId = userId;
     this.state.userRole = userRole;
 
     console.log(
-      `ApiPollingUpdateService: User context updated - ${userRole}: ${userId}`
+      `ApiPollingUpdateService: User context updated - ${userRole}: ${userId}`,
     );
   }
 
   public clearUserContext(): void {
     this.state.userId = null;
     this.state.userRole = null;
-    console.log('ApiPollingUpdateService: User context cleared');
+    console.log("ApiPollingUpdateService: User context cleared");
   }
 
   public getUserContext(): {
     userId: string | null;
-    userRole: 'initiator' | 'expert' | null;
+    userRole: "initiator" | "expert" | null;
   } {
     return {
       userId: this.state.userId,

@@ -4,16 +4,16 @@ import {
   useState,
   useEffect,
   useCallback,
-} from 'react';
-import type { ReactNode } from 'react';
-import { useAuth, useChatServices } from '@/contexts';
+} from "react";
+import type { ReactNode } from "react";
+import { useAuth, useChatServices } from "@/contexts";
 import type {
   Conversation,
   Message,
   ExpertProfile,
   ExpertQueue,
   ExpertAssignment,
-} from '@/types';
+} from "@/types";
 
 interface ChatContextType {
   // State
@@ -71,7 +71,7 @@ export function ChatProvider({ children }: ChatProviderProps) {
     string | null
   >(null);
   const [expertProfile, setExpertProfile] = useState<ExpertProfile | null>(
-    null
+    null,
   );
   const [expertQueue, setExpertQueue] = useState<ExpertQueue | null>(null);
   const [expertAssignments, setExpertAssignments] = useState<
@@ -93,19 +93,19 @@ export function ChatProvider({ children }: ChatProviderProps) {
 
     // First check main conversations list
     const mainConversation = conversations.find(
-      c => c.id === selectedConversationId
+      (c) => c.id === selectedConversationId,
     );
     if (mainConversation) return mainConversation;
 
     // If not found, check expert queue conversations
     if (expertQueue) {
       const waitingConversation = expertQueue.waitingConversations.find(
-        c => c.id === selectedConversationId
+        (c) => c.id === selectedConversationId,
       );
       if (waitingConversation) return waitingConversation;
 
       const assignedConversation = expertQueue.assignedConversations.find(
-        c => c.id === selectedConversationId
+        (c) => c.id === selectedConversationId,
       );
       if (assignedConversation) return assignedConversation;
     }
@@ -134,7 +134,7 @@ export function ChatProvider({ children }: ChatProviderProps) {
       setConversations(conversationsData);
     } catch (err) {
       const errorMessage =
-        err instanceof Error ? err.message : 'Failed to load conversations';
+        err instanceof Error ? err.message : "Failed to load conversations";
       setError(errorMessage);
     } finally {
       setIsLoadingConversations(false);
@@ -151,19 +151,19 @@ export function ChatProvider({ children }: ChatProviderProps) {
 
       try {
         const messagesData = await chatService.getMessages(conversationId);
-        setMessages(prev => ({
+        setMessages((prev) => ({
           ...prev,
           [conversationId]: messagesData,
         }));
       } catch (err) {
         const errorMessage =
-          err instanceof Error ? err.message : 'Failed to load messages';
+          err instanceof Error ? err.message : "Failed to load messages";
         setError(errorMessage);
       } finally {
         setIsLoadingMessages(false);
       }
     },
-    [isServicesReady, chatService]
+    [isServicesReady, chatService],
   );
 
   // Conversation selection
@@ -175,7 +175,7 @@ export function ChatProvider({ children }: ChatProviderProps) {
         loadMessages(conversationId);
       }
     },
-    [messages, loadMessages]
+    [messages, loadMessages],
   );
 
   const clearSelection = useCallback(() => {
@@ -194,37 +194,37 @@ export function ChatProvider({ children }: ChatProviderProps) {
         });
 
         // Update local state with server response
-        setMessages(prev => ({
+        setMessages((prev) => ({
           ...prev,
           [conversationId]: [...(prev[conversationId] || []), newMessage],
         }));
 
         // Update conversation last message time
-        setConversations(prev =>
-          prev.map(conv =>
+        setConversations((prev) =>
+          prev.map((conv) =>
             conv.id === conversationId
               ? {
                   ...conv,
                   lastMessageAt: newMessage.timestamp,
                   updatedAt: newMessage.timestamp,
                 }
-              : conv
-          )
+              : conv,
+          ),
         );
       } catch (err) {
         const errorMessage =
-          err instanceof Error ? err.message : 'Failed to send message';
+          err instanceof Error ? err.message : "Failed to send message";
         setError(errorMessage);
       }
     },
-    [isServicesReady, chatService, user]
+    [isServicesReady, chatService, user],
   );
 
   // Create conversation using ChatService
   const createConversation = useCallback(
     async (title: string): Promise<Conversation> => {
       if (!isServicesReady || !chatService || !user) {
-        throw new Error('Services not ready or user not authenticated');
+        throw new Error("Services not ready or user not authenticated");
       }
 
       try {
@@ -233,16 +233,16 @@ export function ChatProvider({ children }: ChatProviderProps) {
         });
 
         // Update local state
-        setConversations(prev => [newConversation, ...prev]);
+        setConversations((prev) => [newConversation, ...prev]);
         return newConversation;
       } catch (err) {
         const errorMessage =
-          err instanceof Error ? err.message : 'Failed to create conversation';
+          err instanceof Error ? err.message : "Failed to create conversation";
         setError(errorMessage);
         throw err;
       }
     },
-    [isServicesReady, chatService, user]
+    [isServicesReady, chatService, user],
   );
 
   // Load expert data using ChatService
@@ -264,7 +264,7 @@ export function ChatProvider({ children }: ChatProviderProps) {
       setExpertAssignments(assignments);
     } catch (err) {
       const errorMessage =
-        err instanceof Error ? err.message : 'Failed to load expert data';
+        err instanceof Error ? err.message : "Failed to load expert data";
       setError(errorMessage);
     } finally {
       setIsLoadingExpertData(false);
@@ -281,31 +281,37 @@ export function ChatProvider({ children }: ChatProviderProps) {
         await chatService.claimConversation(conversationId);
 
         // Update local state
-        setConversations(prev =>
-          prev.map(conv =>
+        setConversations((prev) =>
+          prev.map((conv) =>
             conv.id === conversationId
               ? {
                   ...conv,
                   assignedExpertId: user?.id,
                   assignedExpertUsername: user?.username,
-                  status: 'active',
+                  status: "active",
                   updatedAt: new Date().toISOString(),
                 }
-              : conv
-          )
+              : conv,
+          ),
         );
 
         // Reload expert data to update the queue
         await loadExpertData();
       } catch (err) {
         const errorMessage =
-          err instanceof Error ? err.message : 'Failed to claim conversation';
+          err instanceof Error ? err.message : "Failed to claim conversation";
         setError(errorMessage);
       } finally {
         setIsClaimingConversation(false);
       }
     },
-    [isServicesReady, chatService, user, loadExpertData, isClaimingConversation]
+    [
+      isServicesReady,
+      chatService,
+      user,
+      loadExpertData,
+      isClaimingConversation,
+    ],
   );
 
   // Unclaim conversation using ChatService
@@ -318,31 +324,31 @@ export function ChatProvider({ children }: ChatProviderProps) {
         await chatService.unclaimConversation(conversationId);
 
         // Update local state
-        setConversations(prev =>
-          prev.map(conv =>
+        setConversations((prev) =>
+          prev.map((conv) =>
             conv.id === conversationId
               ? {
                   ...conv,
                   assignedExpertId: undefined,
                   assignedExpertUsername: undefined,
-                  status: 'waiting',
+                  status: "waiting",
                   updatedAt: new Date().toISOString(),
                 }
-              : conv
-          )
+              : conv,
+          ),
         );
 
         // Reload expert data to update the queue
         await loadExpertData();
       } catch (err) {
         const errorMessage =
-          err instanceof Error ? err.message : 'Failed to unclaim conversation';
+          err instanceof Error ? err.message : "Failed to unclaim conversation";
         setError(errorMessage);
       } finally {
         setIsClaimingConversation(false);
       }
     },
-    [isServicesReady, chatService, loadExpertData, isClaimingConversation]
+    [isServicesReady, chatService, loadExpertData, isClaimingConversation],
   );
 
   // Resolve conversation using ChatService
@@ -352,28 +358,28 @@ export function ChatProvider({ children }: ChatProviderProps) {
 
       try {
         await chatService.updateConversation(conversationId, {
-          status: 'resolved',
+          status: "resolved",
         });
 
         // Update local state
-        setConversations(prev =>
-          prev.map(conv =>
+        setConversations((prev) =>
+          prev.map((conv) =>
             conv.id === conversationId
               ? {
                   ...conv,
-                  status: 'resolved',
+                  status: "resolved",
                   updatedAt: new Date().toISOString(),
                 }
-              : conv
-          )
+              : conv,
+          ),
         );
       } catch (err) {
         const errorMessage =
-          err instanceof Error ? err.message : 'Failed to resolve conversation';
+          err instanceof Error ? err.message : "Failed to resolve conversation";
         setError(errorMessage);
       }
     },
-    [isServicesReady, chatService]
+    [isServicesReady, chatService],
   );
 
   // Update expert profile using ChatService
@@ -388,11 +394,11 @@ export function ChatProvider({ children }: ChatProviderProps) {
         const errorMessage =
           err instanceof Error
             ? err.message
-            : 'Failed to update expert profile';
+            : "Failed to update expert profile";
         setError(errorMessage);
       }
     },
-    [isServicesReady, chatService]
+    [isServicesReady, chatService],
   );
 
   const value: ChatContextType = {
@@ -437,22 +443,22 @@ export function ChatProvider({ children }: ChatProviderProps) {
     if (!isServicesReady || !updateService) return;
 
     const handleConversationUpdate = (conversation: Conversation) => {
-      setConversations(prev =>
-        prev.map(conv => (conv.id === conversation.id ? conversation : conv))
+      setConversations((prev) =>
+        prev.map((conv) => (conv.id === conversation.id ? conversation : conv)),
       );
     };
 
     const handleMessageUpdate = (message: Message) => {
-      setMessages(prev => {
+      setMessages((prev) => {
         const existingMessages = prev[message.conversationId] || [];
 
         // Check if message already exists (by ID)
-        const messageExists = existingMessages.some(m => m.id === message.id);
+        const messageExists = existingMessages.some((m) => m.id === message.id);
 
         if (messageExists) {
           // Check if the message content has actually changed
           const existingMessage = existingMessages.find(
-            m => m.id === message.id
+            (m) => m.id === message.id,
           );
           if (existingMessage && existingMessage.content === message.content) {
             // Message content hasn't changed, return previous state to avoid re-render
@@ -462,15 +468,15 @@ export function ChatProvider({ children }: ChatProviderProps) {
           // Message content changed, update it
           return {
             ...prev,
-            [message.conversationId]: existingMessages.map(m =>
-              m.id === message.id ? message : m
+            [message.conversationId]: existingMessages.map((m) =>
+              m.id === message.id ? message : m,
             ),
           };
         } else {
           // Add new message (insert in chronological order)
           const updatedMessages = [...existingMessages, message].sort(
             (a, b) =>
-              new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+              new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime(),
           );
 
           return {
@@ -519,7 +525,7 @@ export function ChatProvider({ children }: ChatProviderProps) {
 export function useChat() {
   const context = useContext(ChatContext);
   if (context === undefined) {
-    throw new Error('useChat must be used within a ChatProvider');
+    throw new Error("useChat must be used within a ChatProvider");
   }
   return context;
 }

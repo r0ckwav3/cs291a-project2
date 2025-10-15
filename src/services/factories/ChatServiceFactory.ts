@@ -1,7 +1,7 @@
-import type { ChatService, ChatServiceFactory } from '@/types';
-import type { ChatServiceConfig } from '@/types';
-import { DummyChatService } from '../implementations/DummyChatService';
-import { ApiChatService } from '../implementations/ApiChatService';
+import type { ChatService, ChatServiceFactory } from "@/types";
+import type { ChatServiceConfig } from "@/types";
+import { DummyChatService } from "../implementations/DummyChatService";
+import { ApiChatService } from "../implementations/ApiChatService";
 
 /**
  * Factory for creating ChatService instances based on configuration
@@ -18,12 +18,12 @@ export class ChatServiceFactoryImpl implements ChatServiceFactory {
    */
   public createService(): ChatService {
     switch (this.config.type) {
-      case 'dummy':
+      case "dummy":
         return new DummyChatService();
 
-      case 'api':
+      case "api":
         if (!this.config.baseUrl) {
-          throw new Error('API base URL is required for API chat service');
+          throw new Error("API base URL is required for API chat service");
         }
         return new ApiChatService({
           baseUrl: this.config.baseUrl,

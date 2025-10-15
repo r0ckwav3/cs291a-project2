@@ -1,2 +1,2 @@
-export { ChatServiceFactoryImpl } from './ChatServiceFactory';
-export { UpdateServiceFactoryImpl } from './UpdateServiceFactory';
+export { ChatServiceFactoryImpl } from "./ChatServiceFactory";
+export { UpdateServiceFactoryImpl } from "./UpdateServiceFactory";

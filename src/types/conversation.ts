@@ -32,7 +32,7 @@
 export interface Conversation {
   id: string;
   title: string;
-  status: 'waiting' | 'active' | 'resolved';
+  status: "waiting" | "active" | "resolved";
   questionerId: string;
   questionerUsername: string;
   assignedExpertId?: string | null;
@@ -50,6 +50,6 @@ export interface CreateConversationRequest {
 
 export interface UpdateConversationRequest {
   title?: string;
-  status?: Conversation['status'];
+  status?: Conversation["status"];
   assignedExpertId?: string;
 }

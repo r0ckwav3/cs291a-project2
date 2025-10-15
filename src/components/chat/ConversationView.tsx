@@ -1,13 +1,13 @@
-import { Button } from '@/components/ui/button';
-import MessageList from './MessageList';
-import MessageInput from './MessageInput';
-import type { Conversation, Message } from '@/types';
-import { useRef, useEffect } from 'react';
+import { Button } from "@/components/ui/button";
+import MessageList from "./MessageList";
+import MessageInput from "./MessageInput";
+import type { Conversation, Message } from "@/types";
+import { useRef, useEffect } from "react";
 
 interface ConversationViewProps {
   conversation?: Conversation | null;
   messages: Message[];
-  mode: 'user' | 'expert';
+  mode: "user" | "expert";
   currentExpert?: string;
   onSendMessage: (content: string) => void;
   onClaimConversation: (id: string) => void;
@@ -28,7 +28,7 @@ export default function ConversationView({
 
   // Auto-scroll to bottom when messages change
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   if (!conversation) {
@@ -44,7 +44,7 @@ export default function ConversationView({
       {/* Conversation Header */}
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          {mode === 'expert' && onBackToDashboard && (
+          {mode === "expert" && onBackToDashboard && (
             <Button variant="outline" size="sm" onClick={onBackToDashboard}>
               ← Dashboard
             </Button>
@@ -54,15 +54,15 @@ export default function ConversationView({
           </h3>
           <span
             className={`text-xs px-2 py-0.5 rounded-full border ${
-              conversation.assignedExpertId ? '' : 'opacity-70'
+              conversation.assignedExpertId ? "" : "opacity-70"
             }`}
           >
             {conversation.assignedExpertId
               ? `Assigned Expert: ${conversation.assignedExpertUsername || conversation.assignedExpertId}`
-              : 'Waiting for Expert'}
+              : "Waiting for Expert"}
           </span>
         </div>
-        {mode === 'expert' &&
+        {mode === "expert" &&
           conversation.assignedExpertId !== currentExpert && (
             <Button
               size="sm"

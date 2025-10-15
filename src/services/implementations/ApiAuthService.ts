@@ -3,8 +3,8 @@ import type {
   RegisterRequest,
   User,
   AuthServiceConfig,
-} from '@/types';
-import TokenManager from '@/services/TokenManager';
+} from "@/types";
+import TokenManager from "@/services/TokenManager";
 
 /**
  * API-based implementation of AuthService
@@ -15,13 +15,13 @@ export class ApiAuthService implements AuthService {
   private tokenManager: TokenManager;
 
   constructor(config: AuthServiceConfig) {
-    this.baseUrl = config.baseUrl || 'http://localhost:3000';
+    this.baseUrl = config.baseUrl || "http://localhost:3000";
     this.tokenManager = TokenManager.getInstance();
   }
 
   private async makeRequest<T>(
     endpoint: string,
-    options: RequestInit = {}
+    options: RequestInit = {},
   ): Promise<T> {
     // TODO: Implement the makeRequest helper method
     // This should:
@@ -32,7 +32,7 @@ export class ApiAuthService implements AuthService {
     // 5. Handle non-ok responses by throwing an error with status and message
     // 6. Return the parsed JSON response
 
-    throw new Error('makeRequest method not implemented');
+    throw new Error("makeRequest method not implemented");
   }
 
   async login(username: string, password: string): Promise<User> {
@@ -44,7 +44,7 @@ export class ApiAuthService implements AuthService {
     //
     // See API_SPECIFICATION.md for endpoint details
 
-    throw new Error('login method not implemented');
+    throw new Error("login method not implemented");
   }
 
   async register(userData: RegisterRequest): Promise<User> {
@@ -56,7 +56,7 @@ export class ApiAuthService implements AuthService {
     //
     // See API_SPECIFICATION.md for endpoint details
 
-    throw new Error('register method not implemented');
+    throw new Error("register method not implemented");
   }
 
   async logout(): Promise<void> {
@@ -68,7 +68,7 @@ export class ApiAuthService implements AuthService {
     //
     // See API_SPECIFICATION.md for endpoint details
 
-    throw new Error('logout method not implemented');
+    throw new Error("logout method not implemented");
   }
 
   async refreshToken(): Promise<User> {
@@ -80,7 +80,7 @@ export class ApiAuthService implements AuthService {
     //
     // See API_SPECIFICATION.md for endpoint details
 
-    throw new Error('refreshToken method not implemented');
+    throw new Error("refreshToken method not implemented");
   }
 
   async getCurrentUser(): Promise<User | null> {
@@ -92,6 +92,6 @@ export class ApiAuthService implements AuthService {
     //
     // See API_SPECIFICATION.md for endpoint details
 
-    throw new Error('getCurrentUser method not implemented');
+    throw new Error("getCurrentUser method not implemented");
   }
 }

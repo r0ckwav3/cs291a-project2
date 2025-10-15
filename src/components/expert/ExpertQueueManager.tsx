@@ -1,8 +1,8 @@
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Clock, CheckCircle, AlertCircle } from 'lucide-react';
-import type { ExpertQueue } from '@/types';
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Clock, CheckCircle, AlertCircle } from "lucide-react";
+import type { ExpertQueue } from "@/types";
 
 interface ExpertQueueManagerProps {
   expertQueue: ExpertQueue | null;
@@ -35,7 +35,7 @@ export default function ExpertQueueManager({
     } else if (diffHours > 0) {
       return `${diffHours}h ago`;
     } else {
-      return 'Just now';
+      return "Just now";
     }
   };
 
@@ -44,9 +44,9 @@ export default function ExpertQueueManager({
     const created = new Date(createdAt);
     const diffHours = (now.getTime() - created.getTime()) / (1000 * 60 * 60);
 
-    if (diffHours > 24) return 'destructive';
-    if (diffHours > 4) return 'default';
-    return 'secondary';
+    if (diffHours > 24) return "destructive";
+    if (diffHours > 4) return "default";
+    return "secondary";
   };
 
   if (!expertQueue) {
@@ -78,7 +78,7 @@ export default function ExpertQueueManager({
           <CardContent>
             {waitingConversations.length > 0 ? (
               <div className="space-y-3">
-                {waitingConversations.map(conversation => (
+                {waitingConversations.map((conversation) => (
                   <div
                     key={conversation.id}
                     className="border rounded-lg p-4 space-y-3"
@@ -95,9 +95,9 @@ export default function ExpertQueueManager({
                             {getConversationAge(conversation.createdAt)}
                           </Badge>
                           <span className="text-xs text-gray-500">
-                            Created{' '}
+                            Created{" "}
                             {new Date(
-                              conversation.createdAt
+                              conversation.createdAt,
                             ).toLocaleDateString()}
                           </span>
                         </div>
@@ -148,7 +148,7 @@ export default function ExpertQueueManager({
           <CardContent>
             {assignedConversations.length > 0 ? (
               <div className="space-y-3">
-                {assignedConversations.map(conversation => (
+                {assignedConversations.map((conversation) => (
                   <div
                     key={conversation.id}
                     className="border rounded-lg p-4 space-y-3"
@@ -161,9 +161,9 @@ export default function ExpertQueueManager({
                         <div className="flex items-center gap-2 mt-1">
                           <Badge variant="secondary">Active</Badge>
                           <span className="text-xs text-gray-500">
-                            Last message{' '}
+                            Last message{" "}
                             {new Date(
-                              conversation.lastMessageAt
+                              conversation.lastMessageAt,
                             ).toLocaleDateString()}
                           </span>
                         </div>

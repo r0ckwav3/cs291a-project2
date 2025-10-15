@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import LoginForm from './LoginForm';
-import RegisterForm from './RegisterForm';
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import LoginForm from "./LoginForm";
+import RegisterForm from "./RegisterForm";
 
 interface AuthPageProps {
   onLogin: (username: string, password: string) => void;
@@ -19,7 +19,7 @@ export default function AuthPage({
   error,
   successMessage,
 }: AuthPageProps) {
-  const [authView, setAuthView] = useState<'login' | 'register'>('login');
+  const [authView, setAuthView] = useState<"login" | "register">("login");
 
   const handleLogin = (username: string, password: string) => {
     onLogin(username, password);
@@ -30,7 +30,7 @@ export default function AuthPage({
   };
 
   const toggleView = () => {
-    setAuthView(authView === 'login' ? 'register' : 'login');
+    setAuthView(authView === "login" ? "register" : "login");
   };
 
   return (
@@ -39,10 +39,10 @@ export default function AuthPage({
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle>
-              {authView === 'login' ? 'Login' : 'Create an Account'}
+              {authView === "login" ? "Login" : "Create an Account"}
             </CardTitle>
             <Button variant="outline" onClick={toggleView} disabled={isLoading}>
-              {authView === 'login' ? 'Register' : 'Have an account? Login'}
+              {authView === "login" ? "Register" : "Have an account? Login"}
             </Button>
           </div>
         </CardHeader>
@@ -57,7 +57,7 @@ export default function AuthPage({
               {error}
             </div>
           )}
-          {authView === 'login' ? (
+          {authView === "login" ? (
             <LoginForm onSubmit={handleLogin} isLoading={isLoading} />
           ) : (
             <RegisterForm onSubmit={handleRegister} isLoading={isLoading} />

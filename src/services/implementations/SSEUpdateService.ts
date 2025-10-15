@@ -4,7 +4,7 @@ import type {
   Message,
   ExpertQueue,
   ConnectionStatus,
-} from '@/types';
+} from "@/types";
 
 interface SSEUpdateServiceConfig {
   baseUrl: string;
@@ -38,7 +38,7 @@ export class SSEUpdateService implements UpdateService {
     this.notifyConnectionStatusChange({ connected: true });
 
     // TODO: Implement SSE connection in future step
-    console.log('SSEUpdateService started');
+    console.log("SSEUpdateService started");
   }
 
   async stop(): Promise<void> {
@@ -54,7 +54,7 @@ export class SSEUpdateService implements UpdateService {
       this.eventSource = null;
     }
 
-    console.log('SSEUpdateService stopped');
+    console.log("SSEUpdateService stopped");
   }
 
   isRunning(): boolean {
@@ -92,17 +92,17 @@ export class SSEUpdateService implements UpdateService {
   }
 
   offConnectionStatusChange(
-    callback: (status: ConnectionStatus) => void
+    callback: (status: ConnectionStatus) => void,
   ): void {
     this.connectionStatusCallbacks.delete(callback);
   }
 
   private notifyConnectionStatusChange(status: ConnectionStatus): void {
-    this.connectionStatusCallbacks.forEach(callback => {
+    this.connectionStatusCallbacks.forEach((callback) => {
       try {
         callback(status);
       } catch (error) {
-        console.error('Error in connection status callback:', error);
+        console.error("Error in connection status callback:", error);
       }
     });
   }

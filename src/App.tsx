@@ -3,18 +3,18 @@ import {
   Routes,
   Route,
   Navigate,
-} from 'react-router-dom';
+} from "react-router-dom";
 import {
   AuthProvider,
   AuthServiceProvider,
   ChatProvider,
   ChatServiceProvider,
   ConfigProvider,
-} from '@/contexts';
-import AuthPage from '@/pages/AuthPage';
-import ChatPage from '@/pages/ChatPage';
-import SettingsPage from '@/pages/SettingsPage';
-import './App.css';
+} from "@/contexts";
+import AuthPage from "@/pages/AuthPage";
+import ChatPage from "@/pages/ChatPage";
+import SettingsPage from "@/pages/SettingsPage";
+import "./App.css";
 
 function App() {
   return (

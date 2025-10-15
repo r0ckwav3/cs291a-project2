@@ -1,9 +1,9 @@
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import type { ExpertProfile, ExpertQueue } from '@/types';
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import type { ExpertProfile, ExpertQueue } from "@/types";
 
 interface ExpertPanelProps {
   expertProfile: ExpertProfile | null;
@@ -23,9 +23,9 @@ export default function ExpertPanel({
   onResolveConversation: _onResolveConversation,
 }: ExpertPanelProps) {
   const [isEditingProfile, setIsEditingProfile] = useState(false);
-  const [editedBio, setEditedBio] = useState(expertProfile?.bio || '');
+  const [editedBio, setEditedBio] = useState(expertProfile?.bio || "");
   const [editedLinks, setEditedLinks] = useState(
-    expertProfile?.knowledgeBaseLinks.join('\n') || ''
+    expertProfile?.knowledgeBaseLinks.join("\n") || "",
   );
 
   const waitingConversations = expertQueue?.waitingConversations;
@@ -35,15 +35,15 @@ export default function ExpertPanel({
   const handleSaveProfile = () => {
     const updatedProfile: Partial<ExpertProfile> = {
       bio: editedBio,
-      knowledgeBaseLinks: editedLinks.split('\n').filter(link => link.trim()),
+      knowledgeBaseLinks: editedLinks.split("\n").filter((link) => link.trim()),
     };
     onUpdateProfile(updatedProfile);
     setIsEditingProfile(false);
   };
 
   const handleCancelEdit = () => {
-    setEditedBio(expertProfile?.bio || '');
-    setEditedLinks(expertProfile?.knowledgeBaseLinks.join('\n') || '');
+    setEditedBio(expertProfile?.bio || "");
+    setEditedLinks(expertProfile?.knowledgeBaseLinks.join("\n") || "");
     setIsEditingProfile(false);
   };
 
@@ -59,7 +59,7 @@ export default function ExpertPanel({
               size="sm"
               onClick={() => setIsEditingProfile(!isEditingProfile)}
             >
-              {isEditingProfile ? 'Cancel' : 'Edit'}
+              {isEditingProfile ? "Cancel" : "Edit"}
             </Button>
           </div>
         </CardHeader>
@@ -75,7 +75,7 @@ export default function ExpertPanel({
                 <Textarea
                   id="bio"
                   value={editedBio}
-                  onChange={e => setEditedBio(e.target.value)}
+                  onChange={(e) => setEditedBio(e.target.value)}
                   placeholder="Describe your expertise and background..."
                   rows={3}
                 />
@@ -85,7 +85,7 @@ export default function ExpertPanel({
                 <Textarea
                   id="links"
                   value={editedLinks}
-                  onChange={e => setEditedLinks(e.target.value)}
+                  onChange={(e) => setEditedLinks(e.target.value)}
                   placeholder="Enter one link per line..."
                   rows={4}
                 />
@@ -106,7 +106,7 @@ export default function ExpertPanel({
               <div>
                 <Label className="text-sm font-medium">Bio</Label>
                 <p className="text-sm text-gray-600 mt-1 text-left pl-4">
-                  {expertProfile.bio || 'No bio provided'}
+                  {expertProfile.bio || "No bio provided"}
                 </p>
               </div>
               <div>
@@ -175,9 +175,9 @@ export default function ExpertPanel({
               onClick={() => {
                 // Scroll to unclaimed conversations
                 const unclaimedSection = document.getElementById(
-                  'unclaimed-conversations'
+                  "unclaimed-conversations",
                 );
-                unclaimedSection?.scrollIntoView({ behavior: 'smooth' });
+                unclaimedSection?.scrollIntoView({ behavior: "smooth" });
               }}
             >
               View Unclaimed Conversations ({waitingConversations?.length})
@@ -188,9 +188,9 @@ export default function ExpertPanel({
               onClick={() => {
                 // Scroll to active conversations
                 const activeSection = document.getElementById(
-                  'active-conversations'
+                  "active-conversations",
                 );
-                activeSection?.scrollIntoView({ behavior: 'smooth' });
+                activeSection?.scrollIntoView({ behavior: "smooth" });
               }}
             >
               View My Active Conversations ({assignedConversations?.length})

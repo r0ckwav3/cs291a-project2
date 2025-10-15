@@ -1,9 +1,9 @@
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { X, Plus } from 'lucide-react';
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { X, Plus } from "lucide-react";
 
 interface ProfileLinksEditorProps {
   links: string[];
@@ -16,12 +16,12 @@ export default function ProfileLinksEditor({
   onLinksChange,
   disabled = false,
 }: ProfileLinksEditorProps) {
-  const [newLink, setNewLink] = useState('');
+  const [newLink, setNewLink] = useState("");
 
   const addLink = () => {
     if (newLink.trim() && !links.includes(newLink.trim())) {
       onLinksChange([...links, newLink.trim()]);
-      setNewLink('');
+      setNewLink("");
     }
   };
 
@@ -36,7 +36,7 @@ export default function ProfileLinksEditor({
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       e.preventDefault();
       addLink();
     }
@@ -56,7 +56,7 @@ export default function ProfileLinksEditor({
         <div className="flex gap-2">
           <Input
             value={newLink}
-            onChange={e => setNewLink(e.target.value)}
+            onChange={(e) => setNewLink(e.target.value)}
             onKeyPress={handleKeyPress}
             placeholder="https://example.com/resource"
             disabled={disabled}
@@ -79,7 +79,7 @@ export default function ProfileLinksEditor({
               <div key={index} className="flex gap-2 items-center">
                 <Input
                   value={link}
-                  onChange={e => updateLink(index, e.target.value)}
+                  onChange={(e) => updateLink(index, e.target.value)}
                   disabled={disabled}
                   className="flex-1"
                 />

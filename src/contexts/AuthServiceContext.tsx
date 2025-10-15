@@ -1,8 +1,8 @@
-import { createContext, useContext, useState, useEffect } from 'react';
-import type { ReactNode } from 'react';
-import { useConfig } from './ConfigContext';
-import { AuthServiceFactoryImpl } from '@/services/factories/AuthServiceFactory';
-import type { AuthService } from '@/types';
+import { createContext, useContext, useState, useEffect } from "react";
+import type { ReactNode } from "react";
+import { useConfig } from "./ConfigContext";
+import { AuthServiceFactoryImpl } from "@/services/factories/AuthServiceFactory";
+import type { AuthService } from "@/types";
 
 interface AuthServiceContextType {
   authService: AuthService;
@@ -11,7 +11,7 @@ interface AuthServiceContextType {
 }
 
 const AuthServiceContext = createContext<AuthServiceContextType | undefined>(
-  undefined
+  undefined,
 );
 
 interface AuthServiceProviderProps {
@@ -28,7 +28,7 @@ export function AuthServiceProvider({ children }: AuthServiceProviderProps) {
   useEffect(() => {
     try {
       const authServiceFactory = new AuthServiceFactoryImpl(
-        serviceConfig.authService
+        serviceConfig.authService,
       );
       const newAuthService = authServiceFactory.createService();
       setAuthService(newAuthService);
@@ -38,7 +38,7 @@ export function AuthServiceProvider({ children }: AuthServiceProviderProps) {
       const errorMessage =
         error instanceof Error
           ? error.message
-          : 'Failed to initialize AuthService';
+          : "Failed to initialize AuthService";
       setAuthServiceError(errorMessage);
       setIsAuthServiceReady(false);
     }
@@ -61,7 +61,7 @@ export function useAuthServices() {
   const context = useContext(AuthServiceContext);
   if (context === undefined) {
     throw new Error(
-      'useAuthServices must be used within an AuthServiceProvider'
+      "useAuthServices must be used within an AuthServiceProvider",
     );
   }
   return context;

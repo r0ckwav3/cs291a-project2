@@ -5,11 +5,11 @@ import {
   useEffect,
   useMemo,
   useCallback,
-} from 'react';
-import type { ReactNode } from 'react';
-import { useAuth, useConfig } from '@/contexts';
-import { ServiceContainer } from '@/services';
-import type { ChatService, UpdateService } from '@/types';
+} from "react";
+import type { ReactNode } from "react";
+import { useAuth, useConfig } from "@/contexts";
+import { ServiceContainer } from "@/services";
+import type { ChatService, UpdateService } from "@/types";
 
 // Type for update service with user context methods
 interface UpdateServiceWithUserContext extends UpdateService {
@@ -28,7 +28,7 @@ interface ChatServiceContextType {
 }
 
 const ChatServiceContext = createContext<ChatServiceContextType | undefined>(
-  undefined
+  undefined,
 );
 
 interface ChatServiceProviderProps {
@@ -48,7 +48,9 @@ export function ChatServiceProvider({ children }: ChatServiceProviderProps) {
       return ServiceContainer.getInstance(serviceConfig);
     } catch (error) {
       setServiceError(
-        error instanceof Error ? error.message : 'Failed to initialize services'
+        error instanceof Error
+          ? error.message
+          : "Failed to initialize services",
       );
       throw error;
     }
@@ -60,7 +62,7 @@ export function ChatServiceProvider({ children }: ChatServiceProviderProps) {
       return serviceContainer.getChatService();
     } catch (error) {
       setServiceError(
-        error instanceof Error ? error.message : 'Failed to get chat service'
+        error instanceof Error ? error.message : "Failed to get chat service",
       );
       throw error;
     }
@@ -71,7 +73,7 @@ export function ChatServiceProvider({ children }: ChatServiceProviderProps) {
       return serviceContainer.getUpdateService();
     } catch (error) {
       setServiceError(
-        error instanceof Error ? error.message : 'Failed to get update service'
+        error instanceof Error ? error.message : "Failed to get update service",
       );
       throw error;
     }
@@ -85,14 +87,14 @@ export function ChatServiceProvider({ children }: ChatServiceProviderProps) {
         const updateServiceWithContext =
           updateService as UpdateServiceWithUserContext;
         if (updateServiceWithContext.setUserContext) {
-          updateServiceWithContext.setUserContext(user.id, 'user');
+          updateServiceWithContext.setUserContext(user.id, "user");
         }
         setServiceError(null);
       } catch (error) {
         setServiceError(
           error instanceof Error
             ? error.message
-            : 'Failed to update user context'
+            : "Failed to update user context",
         );
       }
     } else if (updateService) {
@@ -108,7 +110,7 @@ export function ChatServiceProvider({ children }: ChatServiceProviderProps) {
         setServiceError(
           error instanceof Error
             ? error.message
-            : 'Failed to clear user context'
+            : "Failed to clear user context",
         );
       }
     }
@@ -120,14 +122,14 @@ export function ChatServiceProvider({ children }: ChatServiceProviderProps) {
       setServiceError(null);
       if (updateService) {
         await updateService.start();
-        console.log('Update service started');
+        console.log("Update service started");
       }
       setIsServicesReady(true);
     } catch (error) {
       const errorMessage =
-        error instanceof Error ? error.message : 'Failed to start services';
+        error instanceof Error ? error.message : "Failed to start services";
       setServiceError(errorMessage);
-      console.error('Failed to start update service:', error);
+      console.error("Failed to start update service:", error);
     }
   }, [updateService]);
 
@@ -136,14 +138,14 @@ export function ChatServiceProvider({ children }: ChatServiceProviderProps) {
       setServiceError(null);
       if (updateService) {
         await updateService.stop();
-        console.log('Update service stopped');
+        console.log("Update service stopped");
       }
       setIsServicesReady(false);
     } catch (error) {
       const errorMessage =
-        error instanceof Error ? error.message : 'Failed to stop services';
+        error instanceof Error ? error.message : "Failed to stop services";
       setServiceError(errorMessage);
-      console.error('Failed to stop update service:', error);
+      console.error("Failed to stop update service:", error);
     }
   }, [updateService]);
 
@@ -182,7 +184,7 @@ export function useChatServices() {
   const context = useContext(ChatServiceContext);
   if (context === undefined) {
     throw new Error(
-      'useChatServices must be used within a ChatServiceProvider'
+      "useChatServices must be used within a ChatServiceProvider",
     );
   }
   return context;

@@ -1,15 +1,15 @@
-import type { AuthService, RegisterRequest, User } from '@/types';
+import type { AuthService, RegisterRequest, User } from "@/types";
 
 /**
  * Dummy implementation of AuthService for development and testing
  */
 export class DummyAuthService implements AuthService {
-  private storageKey = 'dummy-auth-data';
+  private storageKey = "dummy-auth-data";
   private delay = 200; // Base delay in ms
 
   private async delayResponse<T>(data: T): Promise<T> {
-    await new Promise(resolve =>
-      setTimeout(resolve, this.delay + Math.random() * 100)
+    await new Promise((resolve) =>
+      setTimeout(resolve, this.delay + Math.random() * 100),
     );
     return data;
   }
@@ -33,26 +33,26 @@ export class DummyAuthService implements AuthService {
 
   private getInitialUsers() {
     return [
-      { username: 'alice', password: 'password' },
-      { username: 'bob', password: 'password' },
-      { username: 'charlie', password: 'password' },
+      { username: "alice", password: "password" },
+      { username: "bob", password: "password" },
+      { username: "charlie", password: "password" },
     ];
   }
 
   async login(username: string, password: string): Promise<User> {
     const authData = this.getAuthData();
     const user = authData.users.find(
-      u => u.username === username && u.password === password
+      (u) => u.username === username && u.password === password,
     );
 
     if (!user) {
-      throw new Error('Invalid username or password');
+      throw new Error("Invalid username or password");
     }
 
     const authUser: User = {
       id: user.username,
       username: user.username,
-      createdAt: '2024-01-01T00:00:00Z',
+      createdAt: "2024-01-01T00:00:00Z",
       lastActiveAt: new Date().toISOString(),
     };
 
@@ -66,10 +66,10 @@ export class DummyAuthService implements AuthService {
 
     // Check if user already exists
     const existingUser = authData.users.find(
-      u => u.username === userData.username
+      (u) => u.username === userData.username,
     );
     if (existingUser) {
-      throw new Error('Username already exists');
+      throw new Error("Username already exists");
     }
 
     // Add new user
@@ -101,7 +101,7 @@ export class DummyAuthService implements AuthService {
   async refreshToken(): Promise<User> {
     const authData = this.getAuthData();
     if (!authData.currentUser) {
-      throw new Error('No current user to refresh token for');
+      throw new Error("No current user to refresh token for");
     }
 
     const refreshedAuthUser: User = {

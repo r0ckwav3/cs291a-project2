@@ -4,7 +4,7 @@ import type {
   Message,
   ExpertQueue,
   ConnectionStatus,
-} from '@/types';
+} from "@/types";
 
 interface WebSocketUpdateServiceConfig {
   wsUrl: string;
@@ -40,7 +40,7 @@ export class WebSocketUpdateService implements UpdateService {
     this.notifyConnectionStatusChange({ connected: true });
 
     // TODO: Implement WebSocket connection in future step
-    console.log('WebSocketUpdateService started');
+    console.log("WebSocketUpdateService started");
   }
 
   async stop(): Promise<void> {
@@ -57,7 +57,7 @@ export class WebSocketUpdateService implements UpdateService {
     }
 
     this.reconnectAttempts = 0;
-    console.log('WebSocketUpdateService stopped');
+    console.log("WebSocketUpdateService stopped");
   }
 
   isRunning(): boolean {
@@ -95,17 +95,17 @@ export class WebSocketUpdateService implements UpdateService {
   }
 
   offConnectionStatusChange(
-    callback: (status: ConnectionStatus) => void
+    callback: (status: ConnectionStatus) => void,
   ): void {
     this.connectionStatusCallbacks.delete(callback);
   }
 
   private notifyConnectionStatusChange(status: ConnectionStatus): void {
-    this.connectionStatusCallbacks.forEach(callback => {
+    this.connectionStatusCallbacks.forEach((callback) => {
       try {
         callback(status);
       } catch (error) {
-        console.error('Error in connection status callback:', error);
+        console.error("Error in connection status callback:", error);
       }
     });
   }

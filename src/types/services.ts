@@ -1,17 +1,17 @@
-import type { User } from './user';
+import type { User } from "./user";
 import type {
   Conversation,
   CreateConversationRequest,
   UpdateConversationRequest,
-} from './conversation';
-import type { Message, SendMessageRequest } from './message';
+} from "./conversation";
+import type { Message, SendMessageRequest } from "./message";
 import type {
   ExpertProfile,
   ExpertQueue,
   ExpertAssignment,
   UpdateExpertProfileRequest,
-} from './expert';
-import type { ConnectionStatus } from './errors';
+} from "./expert";
+import type { ConnectionStatus } from "./errors";
 
 // Authentication Service Interface
 export interface AuthService {
@@ -35,7 +35,7 @@ export interface ChatService {
   createConversation(request: CreateConversationRequest): Promise<Conversation>;
   updateConversation(
     id: string,
-    request: UpdateConversationRequest
+    request: UpdateConversationRequest,
   ): Promise<Conversation>;
   deleteConversation(id: string): Promise<void>;
 
@@ -50,7 +50,7 @@ export interface ChatService {
   unclaimConversation(conversationId: string): Promise<void>;
   getExpertProfile(): Promise<ExpertProfile>;
   updateExpertProfile(
-    request: UpdateExpertProfileRequest
+    request: UpdateExpertProfileRequest,
   ): Promise<ExpertProfile>;
   getExpertAssignmentHistory(): Promise<ExpertAssignment[]>; // Returns only conversations no longer assigned to the expert
 }

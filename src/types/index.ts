@@ -1,15 +1,15 @@
 // User types
-export type { User } from './user';
+export type { User } from "./user";
 
 // Conversation types
 export type {
   Conversation,
   CreateConversationRequest,
   UpdateConversationRequest,
-} from './conversation';
+} from "./conversation";
 
 // Message types
-export type { Message, SendMessageRequest, MessageUpdate } from './message';
+export type { Message, SendMessageRequest, MessageUpdate } from "./message";
 
 // Expert types
 export type {
@@ -17,7 +17,7 @@ export type {
   ExpertQueue,
   ExpertAssignment,
   UpdateExpertProfileRequest,
-} from './expert';
+} from "./expert";
 
 // Service types
 export type {
@@ -27,7 +27,7 @@ export type {
   UpdateService,
   ChatServiceFactory,
   UpdateServiceFactory,
-} from './services';
+} from "./services";
 
 // Configuration types
 export type {
@@ -36,7 +36,7 @@ export type {
   AuthServiceConfig,
   ChatServiceConfig,
   UpdateServiceConfig,
-} from './config';
+} from "./config";
 
 // Error and status types
-export type { ApiError, ConnectionStatus, LoadingState } from './errors';
+export type { ApiError, ConnectionStatus, LoadingState } from "./errors";

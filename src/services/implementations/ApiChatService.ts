@@ -1,4 +1,4 @@
-import type { ChatService } from '@/types';
+import type { ChatService } from "@/types";
 import type {
   Conversation,
   CreateConversationRequest,
@@ -9,8 +9,8 @@ import type {
   ExpertQueue,
   ExpertAssignment,
   UpdateExpertProfileRequest,
-} from '@/types';
-import TokenManager from '@/services/TokenManager';
+} from "@/types";
+import TokenManager from "@/services/TokenManager";
 
 interface ApiChatServiceConfig {
   baseUrl: string;
@@ -33,7 +33,7 @@ export class ApiChatService implements ChatService {
 
   private async makeRequest<T>(
     endpoint: string,
-    options: RequestInit = {}
+    options: RequestInit = {},
   ): Promise<T> {
     // TODO: Implement the makeRequest helper method
     // This should:
@@ -45,7 +45,7 @@ export class ApiChatService implements ChatService {
     // 6. Handle non-ok responses by throwing an error with status and message
     // 7. Return the parsed JSON response
 
-    throw new Error('makeRequest method not implemented');
+    throw new Error("makeRequest method not implemented");
   }
 
   // Conversations
@@ -57,7 +57,7 @@ export class ApiChatService implements ChatService {
     //
     // See API_SPECIFICATION.md for endpoint details
 
-    throw new Error('getConversations method not implemented');
+    throw new Error("getConversations method not implemented");
   }
 
   async getConversation(_id: string): Promise<Conversation> {
@@ -68,11 +68,11 @@ export class ApiChatService implements ChatService {
     //
     // See API_SPECIFICATION.md for endpoint details
 
-    throw new Error('getConversation method not implemented');
+    throw new Error("getConversation method not implemented");
   }
 
   async createConversation(
-    request: CreateConversationRequest
+    request: CreateConversationRequest,
   ): Promise<Conversation> {
     // TODO: Implement createConversation method
     // This should:
@@ -81,22 +81,22 @@ export class ApiChatService implements ChatService {
     //
     // See API_SPECIFICATION.md for endpoint details
 
-    throw new Error('createConversation method not implemented');
+    throw new Error("createConversation method not implemented");
   }
 
   async updateConversation(
     id: string,
-    request: UpdateConversationRequest
+    request: UpdateConversationRequest,
   ): Promise<Conversation> {
     // SKIP, not currently used by application
 
-    throw new Error('updateConversation method not implemented');
+    throw new Error("updateConversation method not implemented");
   }
 
   async deleteConversation(id: string): Promise<void> {
     // SKIP, not currently used by application
 
-    throw new Error('deleteConversation method not implemented');
+    throw new Error("deleteConversation method not implemented");
   }
 
   // Messages
@@ -108,7 +108,7 @@ export class ApiChatService implements ChatService {
     //
     // See API_SPECIFICATION.md for endpoint details
 
-    throw new Error('getMessages method not implemented');
+    throw new Error("getMessages method not implemented");
   }
 
   async sendMessage(request: SendMessageRequest): Promise<Message> {
@@ -119,13 +119,13 @@ export class ApiChatService implements ChatService {
     //
     // See API_SPECIFICATION.md for endpoint details
 
-    throw new Error('sendMessage method not implemented');
+    throw new Error("sendMessage method not implemented");
   }
 
   async markMessageAsRead(messageId: string): Promise<void> {
     // SKIP, not currently used by application
 
-    throw new Error('markMessageAsRead method not implemented');
+    throw new Error("markMessageAsRead method not implemented");
   }
 
   // Expert-specific operations
@@ -137,7 +137,7 @@ export class ApiChatService implements ChatService {
     //
     // See API_SPECIFICATION.md for endpoint details
 
-    throw new Error('getExpertQueue method not implemented');
+    throw new Error("getExpertQueue method not implemented");
   }
 
   async claimConversation(conversationId: string): Promise<void> {
@@ -148,7 +148,7 @@ export class ApiChatService implements ChatService {
     //
     // See API_SPECIFICATION.md for endpoint details
 
-    throw new Error('claimConversation method not implemented');
+    throw new Error("claimConversation method not implemented");
   }
 
   async unclaimConversation(conversationId: string): Promise<void> {
@@ -159,7 +159,7 @@ export class ApiChatService implements ChatService {
     //
     // See API_SPECIFICATION.md for endpoint details
 
-    throw new Error('unclaimConversation method not implemented');
+    throw new Error("unclaimConversation method not implemented");
   }
 
   async getExpertProfile(): Promise<ExpertProfile> {
@@ -170,11 +170,11 @@ export class ApiChatService implements ChatService {
     //
     // See API_SPECIFICATION.md for endpoint details
 
-    throw new Error('getExpertProfile method not implemented');
+    throw new Error("getExpertProfile method not implemented");
   }
 
   async updateExpertProfile(
-    request: UpdateExpertProfileRequest
+    request: UpdateExpertProfileRequest,
   ): Promise<ExpertProfile> {
     // TODO: Implement updateExpertProfile method
     // This should:
@@ -183,7 +183,7 @@ export class ApiChatService implements ChatService {
     //
     // See API_SPECIFICATION.md for endpoint details
 
-    throw new Error('updateExpertProfile method not implemented');
+    throw new Error("updateExpertProfile method not implemented");
   }
 
   async getExpertAssignmentHistory(): Promise<ExpertAssignment[]> {
@@ -194,6 +194,6 @@ export class ApiChatService implements ChatService {
     //
     // See API_SPECIFICATION.md for endpoint details
 
-    throw new Error('getExpertAssignmentHistory method not implemented');
+    throw new Error("getExpertAssignmentHistory method not implemented");
   }
 }

@@ -1,5 +1,5 @@
-import type { AuthService, ChatService } from '@/types';
-import { DummyAuthService } from './DummyAuthService';
+import type { AuthService, ChatService } from "@/types";
+import { DummyAuthService } from "./DummyAuthService";
 import type {
   Conversation,
   CreateConversationRequest,
@@ -10,14 +10,14 @@ import type {
   ExpertQueue,
   ExpertAssignment,
   UpdateExpertProfileRequest,
-} from '@/types';
+} from "@/types";
 
 /**
  * Dummy implementation of ChatService for development and testing
  * Uses localStorage for persistence and realistic delays
  */
 export class DummyChatService implements ChatService {
-  private storageKey = 'dummy-chat-data';
+  private storageKey = "dummy-chat-data";
   private delay = 300; // Base delay in ms
   private authService: AuthService = new DummyAuthService();
 
@@ -37,190 +37,190 @@ export class DummyChatService implements ChatService {
     return {
       conversations: [
         {
-          id: '1',
-          title: 'How to optimize SQL queries?',
-          status: 'active' as const,
-          questionerId: 'alice',
-          questionerUsername: 'alice',
-          assignedExpertId: 'bob',
-          assignedExpertUsername: 'bob',
-          createdAt: '2024-01-15T10:00:00Z',
-          updatedAt: '2024-01-15T10:30:00Z',
-          lastMessageAt: '2024-01-15T10:30:00Z',
+          id: "1",
+          title: "How to optimize SQL queries?",
+          status: "active" as const,
+          questionerId: "alice",
+          questionerUsername: "alice",
+          assignedExpertId: "bob",
+          assignedExpertUsername: "bob",
+          createdAt: "2024-01-15T10:00:00Z",
+          updatedAt: "2024-01-15T10:30:00Z",
+          lastMessageAt: "2024-01-15T10:30:00Z",
           unreadCount: 0,
         },
         {
-          id: '2',
-          title: 'React component re-rendering issues',
-          status: 'waiting' as const,
-          questionerId: 'bob',
-          questionerUsername: 'bob',
+          id: "2",
+          title: "React component re-rendering issues",
+          status: "waiting" as const,
+          questionerId: "bob",
+          questionerUsername: "bob",
           assignedExpertId: null,
           assignedExpertUsername: null,
-          createdAt: '2024-01-15T11:00:00Z',
-          updatedAt: '2024-01-15T11:00:00Z',
-          lastMessageAt: '2024-01-15T11:00:00Z',
+          createdAt: "2024-01-15T11:00:00Z",
+          updatedAt: "2024-01-15T11:00:00Z",
+          lastMessageAt: "2024-01-15T11:00:00Z",
           unreadCount: 1,
         },
         {
-          id: '3',
-          title: 'Database connection pooling',
-          status: 'active' as const,
-          questionerId: 'charlie',
-          questionerUsername: 'charlie',
-          assignedExpertId: 'alice',
-          assignedExpertUsername: 'alice',
-          createdAt: '2024-01-15T12:00:00Z',
-          updatedAt: '2024-01-15T12:15:00Z',
-          lastMessageAt: '2024-01-15T12:15:00Z',
+          id: "3",
+          title: "Database connection pooling",
+          status: "active" as const,
+          questionerId: "charlie",
+          questionerUsername: "charlie",
+          assignedExpertId: "alice",
+          assignedExpertUsername: "alice",
+          createdAt: "2024-01-15T12:00:00Z",
+          updatedAt: "2024-01-15T12:15:00Z",
+          lastMessageAt: "2024-01-15T12:15:00Z",
           unreadCount: 0,
         },
       ],
       messages: {
-        '1': [
+        "1": [
           {
-            id: 'msg1',
-            conversationId: '1',
-            senderId: 'alice',
-            senderRole: 'initiator' as const,
-            senderUsername: 'alice',
+            id: "msg1",
+            conversationId: "1",
+            senderId: "alice",
+            senderRole: "initiator" as const,
+            senderUsername: "alice",
             content:
               "I have a complex SQL query that's running very slowly. How can I optimize it?",
-            timestamp: '2024-01-15T10:00:00Z',
+            timestamp: "2024-01-15T10:00:00Z",
             isRead: true,
           },
           {
-            id: 'msg2',
-            conversationId: '1',
-            senderId: 'bob',
-            senderRole: 'expert' as const,
-            senderUsername: 'bob',
+            id: "msg2",
+            conversationId: "1",
+            senderId: "bob",
+            senderRole: "expert" as const,
+            senderUsername: "bob",
             content:
               "I'd be happy to help you optimize your SQL query! Could you share the query and explain what it's trying to accomplish?",
-            timestamp: '2024-01-15T10:15:00Z',
+            timestamp: "2024-01-15T10:15:00Z",
             isRead: true,
           },
           {
-            id: 'msg3',
-            conversationId: '1',
-            senderId: 'alice',
-            senderRole: 'initiator' as const,
-            senderUsername: 'alice',
+            id: "msg3",
+            conversationId: "1",
+            senderId: "alice",
+            senderRole: "initiator" as const,
+            senderUsername: "alice",
             content:
               'Here is the query: SELECT * FROM users u JOIN orders o ON u.id = o.user_id WHERE u.created_at > "2024-01-01" AND o.status = "completed"',
-            timestamp: '2024-01-15T10:30:00Z',
+            timestamp: "2024-01-15T10:30:00Z",
             isRead: true,
           },
         ],
-        '2': [
+        "2": [
           {
-            id: 'msg4',
-            conversationId: '2',
-            senderId: 'bob',
-            senderRole: 'initiator' as const,
-            senderUsername: 'bob',
+            id: "msg4",
+            conversationId: "2",
+            senderId: "bob",
+            senderRole: "initiator" as const,
+            senderUsername: "bob",
             content:
-              'My React components are re-rendering too often. What could be causing this?',
-            timestamp: '2024-01-15T11:00:00Z',
+              "My React components are re-rendering too often. What could be causing this?",
+            timestamp: "2024-01-15T11:00:00Z",
             isRead: false,
           },
         ],
-        '3': [
+        "3": [
           {
-            id: 'msg5',
-            conversationId: '3',
-            senderId: 'charlie',
-            senderRole: 'initiator' as const,
-            senderUsername: 'charlie',
+            id: "msg5",
+            conversationId: "3",
+            senderId: "charlie",
+            senderRole: "initiator" as const,
+            senderUsername: "charlie",
             content:
-              'I need help setting up database connection pooling for my Node.js application.',
-            timestamp: '2024-01-15T12:00:00Z',
+              "I need help setting up database connection pooling for my Node.js application.",
+            timestamp: "2024-01-15T12:00:00Z",
             isRead: true,
           },
           {
-            id: 'msg6',
-            conversationId: '3',
-            senderId: 'alice',
-            senderRole: 'expert' as const,
-            senderUsername: 'alice',
+            id: "msg6",
+            conversationId: "3",
+            senderId: "alice",
+            senderRole: "expert" as const,
+            senderUsername: "alice",
             content:
-              'Connection pooling is crucial for performance! What database are you using?',
-            timestamp: '2024-01-15T12:15:00Z',
+              "Connection pooling is crucial for performance! What database are you using?",
+            timestamp: "2024-01-15T12:15:00Z",
             isRead: true,
           },
         ],
       },
       expertProfile: {
-        id: 'alice',
-        userId: 'alice',
-        bio: 'Experienced software engineer with expertise in SQL optimization, React development, and system architecture. I love helping developers solve complex technical challenges.',
+        id: "alice",
+        userId: "alice",
+        bio: "Experienced software engineer with expertise in SQL optimization, React development, and system architecture. I love helping developers solve complex technical challenges.",
         knowledgeBaseLinks: [
-          'https://dev.mysql.com/doc/refman/8.0/en/optimization.html',
-          'https://react.dev/learn/render-and-commit',
-          'https://nodejs.org/en/docs/guides/anatomy-of-an-http-transaction/',
+          "https://dev.mysql.com/doc/refman/8.0/en/optimization.html",
+          "https://react.dev/learn/render-and-commit",
+          "https://nodejs.org/en/docs/guides/anatomy-of-an-http-transaction/",
         ],
       },
       expertQueue: {
         waitingConversations: [
           {
-            id: '2',
-            title: 'React component re-rendering issues',
-            status: 'waiting' as const,
-            questionerId: 'bob',
-            questionerUsername: 'bob',
+            id: "2",
+            title: "React component re-rendering issues",
+            status: "waiting" as const,
+            questionerId: "bob",
+            questionerUsername: "bob",
             assignedExpertId: null,
             assignedExpertUsername: null,
-            createdAt: '2024-01-15T11:00:00Z',
-            updatedAt: '2024-01-15T11:00:00Z',
-            lastMessageAt: '2024-01-15T11:00:00Z',
+            createdAt: "2024-01-15T11:00:00Z",
+            updatedAt: "2024-01-15T11:00:00Z",
+            lastMessageAt: "2024-01-15T11:00:00Z",
             unreadCount: 1,
           },
         ],
         assignedConversations: [
           {
-            id: '1',
-            title: 'How to optimize SQL queries?',
-            status: 'active' as const,
-            questionerId: 'alice',
-            questionerUsername: 'alice',
-            assignedExpertId: 'bob',
-            assignedExpertUsername: 'bob',
-            createdAt: '2024-01-15T10:00:00Z',
-            updatedAt: '2024-01-15T10:30:00Z',
-            lastMessageAt: '2024-01-15T10:30:00Z',
+            id: "1",
+            title: "How to optimize SQL queries?",
+            status: "active" as const,
+            questionerId: "alice",
+            questionerUsername: "alice",
+            assignedExpertId: "bob",
+            assignedExpertUsername: "bob",
+            createdAt: "2024-01-15T10:00:00Z",
+            updatedAt: "2024-01-15T10:30:00Z",
+            lastMessageAt: "2024-01-15T10:30:00Z",
             unreadCount: 0,
           },
           {
-            id: '3',
-            title: 'Database connection pooling',
-            status: 'active' as const,
-            questionerId: 'charlie',
-            questionerUsername: 'charlie',
-            assignedExpertId: 'alice',
-            assignedExpertUsername: 'alice',
-            createdAt: '2024-01-15T12:00:00Z',
-            updatedAt: '2024-01-15T12:15:00Z',
-            lastMessageAt: '2024-01-15T12:15:00Z',
+            id: "3",
+            title: "Database connection pooling",
+            status: "active" as const,
+            questionerId: "charlie",
+            questionerUsername: "charlie",
+            assignedExpertId: "alice",
+            assignedExpertUsername: "alice",
+            createdAt: "2024-01-15T12:00:00Z",
+            updatedAt: "2024-01-15T12:15:00Z",
+            lastMessageAt: "2024-01-15T12:15:00Z",
             unreadCount: 0,
           },
         ],
       },
       expertAssignments: [
         {
-          id: 'assignment1',
-          conversationId: '4',
-          expertId: 'alice',
-          assignedAt: '2024-01-14T15:00:00Z',
-          resolvedAt: '2024-01-14T16:30:00Z',
-          status: 'resolved' as const,
+          id: "assignment1",
+          conversationId: "4",
+          expertId: "alice",
+          assignedAt: "2024-01-14T15:00:00Z",
+          resolvedAt: "2024-01-14T16:30:00Z",
+          status: "resolved" as const,
         },
       ],
     };
   }
 
   private async delayResponse<T>(data: T): Promise<T> {
-    await new Promise(resolve =>
-      setTimeout(resolve, this.delay + Math.random() * 200)
+    await new Promise((resolve) =>
+      setTimeout(resolve, this.delay + Math.random() * 200),
     );
     return data;
   }
@@ -251,7 +251,7 @@ export class DummyChatService implements ChatService {
     const data = this.getStorageData();
     const currentUser = await this.authService.getCurrentUser();
     data.conversations = data.conversations.filter(
-      (c: Conversation) => c.questionerId === currentUser!.id
+      (c: Conversation) => c.questionerId === currentUser!.id,
     );
     return this.delayResponse(data.conversations);
   }
@@ -259,7 +259,7 @@ export class DummyChatService implements ChatService {
   async getConversation(id: string): Promise<Conversation> {
     const data = this.getStorageData();
     const conversation = data.conversations.find(
-      (c: Conversation) => c.id === id
+      (c: Conversation) => c.id === id,
     );
     if (!conversation) {
       throw new Error(`Conversation with id ${id} not found`);
@@ -268,14 +268,14 @@ export class DummyChatService implements ChatService {
   }
 
   async createConversation(
-    request: CreateConversationRequest
+    request: CreateConversationRequest,
   ): Promise<Conversation> {
     const data = this.getStorageData();
     const currentUser = await this.authService.getCurrentUser();
     const newConversation: Conversation = {
       id: `conv_${Date.now()}`,
       title: request.title,
-      status: 'waiting',
+      status: "waiting",
       questionerId: currentUser!.id,
       questionerUsername: currentUser!.username,
       assignedExpertId: null,
@@ -293,11 +293,11 @@ export class DummyChatService implements ChatService {
 
   async updateConversation(
     id: string,
-    request: UpdateConversationRequest
+    request: UpdateConversationRequest,
   ): Promise<Conversation> {
     const data = this.getStorageData();
     const conversationIndex = data.conversations.findIndex(
-      (c: Conversation) => c.id === id
+      (c: Conversation) => c.id === id,
     );
     if (conversationIndex === -1) {
       throw new Error(`Conversation with id ${id} not found`);
@@ -317,7 +317,7 @@ export class DummyChatService implements ChatService {
   async deleteConversation(id: string): Promise<void> {
     const data = this.getStorageData();
     data.conversations = data.conversations.filter(
-      (c: Conversation) => c.id !== id
+      (c: Conversation) => c.id !== id,
     );
     delete data.messages[id];
     this.setStorageData(data);
@@ -333,7 +333,7 @@ export class DummyChatService implements ChatService {
 
   async sendMessage(request: SendMessageRequest): Promise<Message> {
     const currentConversation = await this.getConversation(
-      request.conversationId
+      request.conversationId,
     );
     // TODO: Get current user from service container or method parameter
     const currentUser = await this.authService.getCurrentUser();
@@ -345,8 +345,8 @@ export class DummyChatService implements ChatService {
       senderId: currentUser!.id,
       senderRole:
         currentConversation.questionerId === currentUser!.id
-          ? 'initiator'
-          : 'expert',
+          ? "initiator"
+          : "expert",
       senderUsername: currentUser!.username,
       content: request.content,
       timestamp: new Date().toISOString(),
@@ -360,7 +360,7 @@ export class DummyChatService implements ChatService {
 
     // Update conversation last message time
     const conversationIndex = data.conversations.findIndex(
-      (c: Conversation) => c.id === request.conversationId
+      (c: Conversation) => c.id === request.conversationId,
     );
     if (conversationIndex !== -1) {
       data.conversations[conversationIndex].lastMessageAt =
@@ -376,7 +376,7 @@ export class DummyChatService implements ChatService {
     const data = this.getStorageData();
     for (const conversationId in data.messages) {
       const messageIndex = data.messages[conversationId].findIndex(
-        (m: Message) => m.id === messageId
+        (m: Message) => m.id === messageId,
       );
       if (messageIndex !== -1) {
         data.messages[conversationId][messageIndex].isRead = true;
@@ -393,11 +393,11 @@ export class DummyChatService implements ChatService {
     const currentUser = await this.authService.getCurrentUser();
     data.expertQueue.waitingConversations =
       data.expertQueue.waitingConversations.filter(
-        (c: Conversation) => c.assignedExpertId === null
+        (c: Conversation) => c.assignedExpertId === null,
       );
     data.expertQueue.assignedConversations =
       data.expertQueue.assignedConversations.filter(
-        (c: Conversation) => c.assignedExpertId === currentUser!.id
+        (c: Conversation) => c.assignedExpertId === currentUser!.id,
       );
     return this.delayResponse(data.expertQueue);
   }
@@ -405,7 +405,7 @@ export class DummyChatService implements ChatService {
   async claimConversation(conversationId: string): Promise<void> {
     const data = this.getStorageData();
     const conversationIndex = data.conversations.findIndex(
-      (c: Conversation) => c.id === conversationId
+      (c: Conversation) => c.id === conversationId,
     );
     if (conversationIndex === -1) {
       throw new Error(`Conversation with id ${conversationId} not found`);
@@ -418,14 +418,14 @@ export class DummyChatService implements ChatService {
     data.conversations[conversationIndex].assignedExpertId = currentUser!.id;
     data.conversations[conversationIndex].assignedExpertUsername =
       currentUser!.username;
-    data.conversations[conversationIndex].status = 'active';
+    data.conversations[conversationIndex].status = "active";
     data.conversations[conversationIndex].updatedAt = new Date().toISOString();
 
     // Update expert queue
     const conversation = data.conversations[conversationIndex];
     data.expertQueue.waitingConversations =
       data.expertQueue.waitingConversations.filter(
-        (conv: Conversation) => conv.id !== conversationId
+        (conv: Conversation) => conv.id !== conversationId,
       );
     data.expertQueue.assignedConversations.push(conversation);
 
@@ -436,7 +436,7 @@ export class DummyChatService implements ChatService {
   async unclaimConversation(conversationId: string): Promise<void> {
     const data = this.getStorageData();
     const conversationIndex = data.conversations.findIndex(
-      (c: Conversation) => c.id === conversationId
+      (c: Conversation) => c.id === conversationId,
     );
     if (conversationIndex === -1) {
       throw new Error(`Conversation with id ${conversationId} not found`);
@@ -445,14 +445,14 @@ export class DummyChatService implements ChatService {
     // Update conversation
     data.conversations[conversationIndex].assignedExpertId = null;
     data.conversations[conversationIndex].assignedExpertUsername = null;
-    data.conversations[conversationIndex].status = 'waiting';
+    data.conversations[conversationIndex].status = "waiting";
     data.conversations[conversationIndex].updatedAt = new Date().toISOString();
 
     // Update expert queue
     const conversation = data.conversations[conversationIndex];
     data.expertQueue.assignedConversations =
       data.expertQueue.assignedConversations.filter(
-        (conv: Conversation) => conv.id !== conversationId
+        (conv: Conversation) => conv.id !== conversationId,
       );
     data.expertQueue.waitingConversations.push(conversation);
 
@@ -466,7 +466,7 @@ export class DummyChatService implements ChatService {
   }
 
   async updateExpertProfile(
-    request: UpdateExpertProfileRequest
+    request: UpdateExpertProfileRequest,
   ): Promise<ExpertProfile> {
     const data = this.getStorageData();
     const updatedProfile = {

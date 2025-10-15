@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 interface RegisterFormProps {
   onSubmit: (username: string, password: string) => void;
@@ -13,9 +13,9 @@ export default function RegisterForm({
   isLoading = false,
   error: _error,
 }: RegisterFormProps) {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleSubmit = () => {
     if (username.trim() && password.trim() && password === confirmPassword) {
@@ -32,7 +32,7 @@ export default function RegisterForm({
         <label className="text-sm text-left block">Username</label>
         <Input
           value={username}
-          onChange={e => setUsername(e.target.value)}
+          onChange={(e) => setUsername(e.target.value)}
           placeholder="yourname"
           disabled={isLoading}
           required
@@ -43,7 +43,7 @@ export default function RegisterForm({
         <Input
           type="password"
           value={password}
-          onChange={e => setPassword(e.target.value)}
+          onChange={(e) => setPassword(e.target.value)}
           placeholder="••••••••"
           disabled={isLoading}
           required
@@ -54,7 +54,7 @@ export default function RegisterForm({
         <Input
           type="password"
           value={confirmPassword}
-          onChange={e => setConfirmPassword(e.target.value)}
+          onChange={(e) => setConfirmPassword(e.target.value)}
           placeholder="••••••••"
           disabled={isLoading}
           required
@@ -68,7 +68,7 @@ export default function RegisterForm({
         disabled={!isFormValid || isLoading}
         className="w-full bg-gray-500 hover:bg-gray-600 text-white"
       >
-        {isLoading ? 'Creating Account...' : 'Create Account'}
+        {isLoading ? "Creating Account..." : "Create Account"}
       </Button>
     </div>
   );

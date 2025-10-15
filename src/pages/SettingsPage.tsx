@@ -1,4 +1,4 @@
-import { ConfigSettings } from '@/components/settings';
+import { ConfigSettings } from "@/components/settings";
 
 export default function SettingsPage() {
   return (

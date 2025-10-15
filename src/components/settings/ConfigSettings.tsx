@@ -1,9 +1,9 @@
-import { useState } from 'react';
-import { useConfig } from '@/contexts';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
+import { useState } from "react";
+import { useConfig } from "@/contexts";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 
 export default function ConfigSettings() {
   const {
@@ -23,7 +23,7 @@ export default function ConfigSettings() {
 
   const handleConfigChange = (
     field: keyof typeof config,
-    value: string | number
+    value: string | number,
   ) => {
     const updatedConfig = { ...localConfig, [field]: value };
     setLocalConfig(updatedConfig);
@@ -89,12 +89,12 @@ export default function ConfigSettings() {
           <select
             id="backendMode"
             value={localConfig.backendMode}
-            onChange={e => handleConfigChange('backendMode', e.target.value)}
+            onChange={(e) => handleConfigChange("backendMode", e.target.value)}
             className="w-full p-2 border border-gray-300 rounded-md"
           >
-            {availableOptions.backendModes.map(mode => (
+            {availableOptions.backendModes.map((mode) => (
               <option key={mode} value={mode}>
-                {mode === 'dummy' ? 'Dummy (Mock Data)' : 'API (Real Backend)'}
+                {mode === "dummy" ? "Dummy (Mock Data)" : "API (Real Backend)"}
               </option>
             ))}
           </select>
@@ -106,18 +106,18 @@ export default function ConfigSettings() {
           <select
             id="updateMode"
             value={localConfig.updateMode}
-            onChange={e => handleConfigChange('updateMode', e.target.value)}
+            onChange={(e) => handleConfigChange("updateMode", e.target.value)}
             className="w-full p-2 border border-gray-300 rounded-md"
           >
-            {availableOptions.updateModes.map(mode => (
+            {availableOptions.updateModes.map((mode) => (
               <option key={mode} value={mode}>
-                {mode === 'polling'
-                  ? 'Polling'
-                  : mode === 'sse'
-                    ? 'Server-Sent Events'
-                    : mode === 'websocket'
-                      ? 'WebSocket'
-                      : 'Push Notifications'}
+                {mode === "polling"
+                  ? "Polling"
+                  : mode === "sse"
+                    ? "Server-Sent Events"
+                    : mode === "websocket"
+                      ? "WebSocket"
+                      : "Push Notifications"}
               </option>
             ))}
           </select>
@@ -129,12 +129,12 @@ export default function ConfigSettings() {
           <Input
             id="apiBaseUrl"
             type="url"
-            value={localConfig.apiBaseUrl || ''}
-            onChange={e => handleConfigChange('apiBaseUrl', e.target.value)}
+            value={localConfig.apiBaseUrl || ""}
+            onChange={(e) => handleConfigChange("apiBaseUrl", e.target.value)}
             placeholder="https://api.example.com"
-            disabled={localConfig.backendMode === 'dummy'}
+            disabled={localConfig.backendMode === "dummy"}
           />
-          {localConfig.backendMode === 'dummy' && (
+          {localConfig.backendMode === "dummy" && (
             <p className="text-xs text-gray-500">Not used in dummy mode</p>
           )}
         </div>
@@ -145,12 +145,12 @@ export default function ConfigSettings() {
           <Input
             id="wsBaseUrl"
             type="url"
-            value={localConfig.wsBaseUrl || ''}
-            onChange={e => handleConfigChange('wsBaseUrl', e.target.value)}
+            value={localConfig.wsBaseUrl || ""}
+            onChange={(e) => handleConfigChange("wsBaseUrl", e.target.value)}
             placeholder="wss://ws.example.com"
-            disabled={localConfig.updateMode !== 'websocket'}
+            disabled={localConfig.updateMode !== "websocket"}
           />
-          {localConfig.updateMode !== 'websocket' && (
+          {localConfig.updateMode !== "websocket" && (
             <p className="text-xs text-gray-500">
               Only used with WebSocket update mode
             </p>
@@ -164,17 +164,17 @@ export default function ConfigSettings() {
             id="pollingInterval"
             type="number"
             min="1000"
-            value={localConfig.pollingInterval || ''}
-            onChange={e =>
+            value={localConfig.pollingInterval || ""}
+            onChange={(e) =>
               handleConfigChange(
-                'pollingInterval',
-                parseInt(e.target.value) || 5000
+                "pollingInterval",
+                parseInt(e.target.value) || 5000,
               )
             }
             placeholder="5000"
-            disabled={localConfig.updateMode !== 'polling'}
+            disabled={localConfig.updateMode !== "polling"}
           />
-          {localConfig.updateMode !== 'polling' && (
+          {localConfig.updateMode !== "polling" && (
             <p className="text-xs text-gray-500">
               Only used with polling update mode
             </p>
@@ -188,11 +188,11 @@ export default function ConfigSettings() {
             id="maxReconnectAttempts"
             type="number"
             min="1"
-            value={localConfig.maxReconnectAttempts || ''}
-            onChange={e =>
+            value={localConfig.maxReconnectAttempts || ""}
+            onChange={(e) =>
               handleConfigChange(
-                'maxReconnectAttempts',
-                parseInt(e.target.value) || 5
+                "maxReconnectAttempts",
+                parseInt(e.target.value) || 5,
               )
             }
             placeholder="5"
@@ -206,7 +206,7 @@ export default function ConfigSettings() {
             disabled={isLoading || validationErrors.length > 0}
             className="flex-1"
           >
-            {isLoading ? 'Saving...' : 'Save Configuration'}
+            {isLoading ? "Saving..." : "Save Configuration"}
           </Button>
           <Button variant="outline" onClick={handleReset} disabled={isLoading}>
             Reset to Defaults

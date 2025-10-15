@@ -1,7 +1,7 @@
-import { createContext, useContext, useState, useEffect } from 'react';
-import type { ReactNode } from 'react';
-import type { User } from '@/types';
-import { useAuthServices } from './AuthServiceContext';
+import { createContext, useContext, useState, useEffect } from "react";
+import type { ReactNode } from "react";
+import type { User } from "@/types";
+import { useAuthServices } from "./AuthServiceContext";
 
 interface AuthContextType {
   // State
@@ -43,7 +43,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         const currentUser = await authService.getCurrentUser();
         setUser(currentUser);
       } catch (err) {
-        console.error('Failed to initialize auth:', err);
+        console.error("Failed to initialize auth:", err);
         setUser(null);
       } finally {
         setIsLoading(false);
@@ -55,7 +55,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const login = async (username: string, password: string) => {
     if (!isAuthServiceReady || !authService) {
-      throw new Error('Auth service not ready');
+      throw new Error("Auth service not ready");
     }
 
     setIsLoading(true);
@@ -66,7 +66,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       const authUser = await authService.login(username, password);
       setUser(authUser);
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Login failed';
+      const errorMessage = err instanceof Error ? err.message : "Login failed";
       setError(errorMessage);
       throw err;
     } finally {
@@ -76,7 +76,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const register = async (username: string, password: string) => {
     if (!isAuthServiceReady || !authService) {
-      throw new Error('Auth service not ready');
+      throw new Error("Auth service not ready");
     }
 
     setIsLoading(true);
@@ -88,7 +88,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       setUser(authUser);
     } catch (err) {
       const errorMessage =
-        err instanceof Error ? err.message : 'Registration failed';
+        err instanceof Error ? err.message : "Registration failed";
       setError(errorMessage);
       throw err;
     } finally {
@@ -102,7 +102,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         // Use AuthService for logout
         await authService.logout();
       } catch (err) {
-        console.error('Logout error:', err);
+        console.error("Logout error:", err);
       }
     }
 
@@ -116,7 +116,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const refreshToken = async () => {
     if (!isAuthServiceReady || !authService) {
-      throw new Error('Auth service not ready');
+      throw new Error("Auth service not ready");
     }
 
     try {
@@ -124,7 +124,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       const refreshedUser = await authService.refreshToken();
       setUser(refreshedUser);
     } catch (err) {
-      console.error('Token refresh failed:', err);
+      console.error("Token refresh failed:", err);
       await logout(); // Logout on refresh failure
       throw err;
     }
@@ -151,7 +151,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 export function useAuth() {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 }

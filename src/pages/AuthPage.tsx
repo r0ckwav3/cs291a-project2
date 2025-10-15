@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@/contexts';
-import { AuthPage as AuthPageComponent } from '@/components/auth';
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts";
+import { AuthPage as AuthPageComponent } from "@/components/auth";
 
 export default function AuthPage() {
   const { login, register, isLoading, error, isAuthenticated, clearError } =
@@ -12,7 +12,7 @@ export default function AuthPage() {
   // Redirect if already authenticated
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/chat');
+      navigate("/chat");
     }
   }, [isAuthenticated, navigate]);
 
@@ -23,7 +23,7 @@ export default function AuthPage() {
       // Navigation will happen automatically via useEffect
     } catch (err) {
       // Error is handled by the AuthContext
-      console.error('Login failed:', err);
+      console.error("Login failed:", err);
     }
   };
 
@@ -31,10 +31,10 @@ export default function AuthPage() {
     try {
       clearError();
       await register(username, password);
-      setSuccessMessage('Registration successful. Please log in.');
+      setSuccessMessage("Registration successful. Please log in.");
     } catch (err) {
       // Error is handled by the AuthContext
-      console.error('Registration failed:', err);
+      console.error("Registration failed:", err);
     }
   };
 

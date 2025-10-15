@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 interface LoginFormProps {
   onSubmit: (username: string, password: string) => void;
@@ -13,8 +13,8 @@ export default function LoginForm({
   isLoading = false,
   error: _error,
 }: LoginFormProps) {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,7 +29,7 @@ export default function LoginForm({
         <label className="text-sm text-left block">Username</label>
         <Input
           value={username}
-          onChange={e => setUsername(e.target.value)}
+          onChange={(e) => setUsername(e.target.value)}
           placeholder="yourname"
           disabled={isLoading}
           required
@@ -40,7 +40,7 @@ export default function LoginForm({
         <Input
           type="password"
           value={password}
-          onChange={e => setPassword(e.target.value)}
+          onChange={(e) => setPassword(e.target.value)}
           placeholder="••••••••"
           disabled={isLoading}
           required
@@ -51,7 +51,7 @@ export default function LoginForm({
         disabled={!username.trim() || !password.trim() || isLoading}
         className="w-full bg-gray-500 hover:bg-gray-600 text-white"
       >
-        {isLoading ? 'Logging in...' : 'Log In'}
+        {isLoading ? "Logging in..." : "Log In"}
       </Button>
     </div>
   );

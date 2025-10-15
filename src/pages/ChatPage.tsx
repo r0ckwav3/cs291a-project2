@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth, useChat } from '@/contexts';
-import { ChatLayout } from '@/components/layout';
-import { ConversationView } from '@/components/chat';
-import { ExpertPanel, ExpertQueueManager } from '@/components/expert';
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth, useChat } from "@/contexts";
+import { ChatLayout } from "@/components/layout";
+import { ConversationView } from "@/components/chat";
+import { ExpertPanel, ExpertQueueManager } from "@/components/expert";
 
 export default function ChatPage() {
   const { user, isAuthenticated, logout } = useAuth();
@@ -27,29 +27,29 @@ export default function ChatPage() {
     clearError,
   } = useChat();
   const navigate = useNavigate();
-  const [mode, setMode] = useState<'user' | 'expert'>('user');
+  const [mode, setMode] = useState<"user" | "expert">("user");
 
   // Redirect if not authenticated
   useEffect(() => {
     if (!isAuthenticated) {
-      navigate('/auth');
+      navigate("/auth");
     }
   }, [isAuthenticated, navigate]);
 
   const selectedConversation = getCurrentConversation();
   const messages = getCurrentMessages();
   const currentExpert =
-    mode === 'expert' ? expertProfile?.userId || user?.id : user?.username;
+    mode === "expert" ? expertProfile?.userId || user?.id : user?.username;
 
   const handleModeToggle = () => {
-    setMode(mode === 'user' ? 'expert' : 'user');
+    setMode(mode === "user" ? "expert" : "user");
     // Clear conversation selection when switching modes
     clearSelection();
   };
 
   const handleLogout = async () => {
     await logout();
-    navigate('/auth');
+    navigate("/auth");
   };
 
   const handleConversationSelect = (id: string) => {
@@ -58,12 +58,12 @@ export default function ChatPage() {
 
   const handleNewConversation = async () => {
     try {
-      const title = prompt('Enter conversation title:');
+      const title = prompt("Enter conversation title:");
       if (title) {
         await createConversation(title);
       }
     } catch (err) {
-      console.error('Failed to create conversation:', err);
+      console.error("Failed to create conversation:", err);
     }
   };
 
@@ -71,7 +71,7 @@ export default function ChatPage() {
     try {
       await claimConversation(id);
     } catch (err) {
-      console.error('Failed to claim conversation:', err);
+      console.error("Failed to claim conversation:", err);
     }
   };
 
@@ -79,7 +79,7 @@ export default function ChatPage() {
     try {
       await unclaimConversation(id);
     } catch (err) {
-      console.error('Failed to unclaim conversation:', err);
+      console.error("Failed to unclaim conversation:", err);
     }
   };
 
@@ -89,18 +89,18 @@ export default function ChatPage() {
     try {
       await sendMessage(selectedConversationId, content);
     } catch (err) {
-      console.error('Failed to send message:', err);
+      console.error("Failed to send message:", err);
     }
   };
 
   // Expert-specific handlers
   const handleUpdateProfile = async (
-    updatedProfile: Partial<NonNullable<typeof expertProfile>>
+    updatedProfile: Partial<NonNullable<typeof expertProfile>>,
   ) => {
     try {
       await updateExpertProfile(updatedProfile);
     } catch (err) {
-      console.error('Failed to update expert profile:', err);
+      console.error("Failed to update expert profile:", err);
     }
   };
 
@@ -108,7 +108,7 @@ export default function ChatPage() {
     try {
       await resolveConversation(conversationId);
     } catch (err) {
-      console.error('Failed to resolve conversation:', err);
+      console.error("Failed to resolve conversation:", err);
     }
   };
 
@@ -128,7 +128,7 @@ export default function ChatPage() {
       onNewConversation={handleNewConversation}
       onClaimConversation={handleClaimConversation}
       onUnclaimConversation={handleUnclaimConversation}
-      currentUser={user?.username || 'User'}
+      currentUser={user?.username || "User"}
       currentExpert={currentExpert}
       isClaimingConversation={isClaimingConversation}
     >
@@ -144,7 +144,7 @@ export default function ChatPage() {
         </div>
       )}
 
-      {mode === 'user' ? (
+      {mode === "user" ? (
         <ConversationView
           conversation={selectedConversation}
           messages={messages}

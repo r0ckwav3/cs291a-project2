@@ -4,8 +4,8 @@
  */
 
 export interface AppConfig {
-  backendMode: 'dummy' | 'api';
-  updateMode: 'polling' | 'sse' | 'websocket' | 'push';
+  backendMode: "dummy" | "api";
+  updateMode: "polling" | "sse" | "websocket" | "push";
   apiBaseUrl?: string;
   wsBaseUrl?: string;
   pollingInterval?: number;
@@ -13,20 +13,20 @@ export interface AppConfig {
 }
 
 export interface AuthServiceConfig {
-  type: 'dummy' | 'api';
+  type: "dummy" | "api";
   baseUrl?: string;
   timeout?: number;
 }
 
 export interface ChatServiceConfig {
-  type: 'dummy' | 'api';
+  type: "dummy" | "api";
   baseUrl?: string;
   timeout?: number;
   retryAttempts?: number;
 }
 
 export interface UpdateServiceConfig {
-  type: 'polling' | 'sse' | 'websocket' | 'push';
+  type: "polling" | "sse" | "websocket" | "push";
   interval?: number; // for polling
   baseUrl?: string;
   wsUrl?: string; // for websocket

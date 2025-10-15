@@ -1,6 +1,6 @@
-import type { ChatService, UpdateService, ServiceConfig } from '@/types';
-import { ChatServiceFactoryImpl } from './factories/ChatServiceFactory';
-import { UpdateServiceFactoryImpl } from './factories/UpdateServiceFactory';
+import type { ChatService, UpdateService, ServiceConfig } from "@/types";
+import { ChatServiceFactoryImpl } from "./factories/ChatServiceFactory";
+import { UpdateServiceFactoryImpl } from "./factories/UpdateServiceFactory";
 
 /**
  * Service container for dependency injection and service management
@@ -17,7 +17,7 @@ export class ServiceContainer {
     this.config = config;
     this.chatServiceFactory = new ChatServiceFactoryImpl(config.chatService);
     this.updateServiceFactory = new UpdateServiceFactoryImpl(
-      config.updateService
+      config.updateService,
     );
   }
 
@@ -28,7 +28,7 @@ export class ServiceContainer {
     if (!ServiceContainer.instance) {
       if (!config) {
         throw new Error(
-          'ServiceContainer must be initialized with configuration'
+          "ServiceContainer must be initialized with configuration",
         );
       }
       ServiceContainer.instance = new ServiceContainer(config);

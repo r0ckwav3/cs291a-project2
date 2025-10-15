@@ -1,4 +1,4 @@
-import type { AppConfig, ServiceConfig } from '@/types';
+import type { AppConfig, ServiceConfig } from "@/types";
 
 /**
  * Configuration service for managing app-wide settings
@@ -8,7 +8,7 @@ class ConfigService {
   private static instance: ConfigService;
   private config: AppConfig;
   private listeners: Set<(config: AppConfig) => void> = new Set();
-  private readonly STORAGE_KEY = 'chat-app-config';
+  private readonly STORAGE_KEY = "chat-app-config";
 
   private constructor() {
     this.config = this.loadInitialConfig();
@@ -33,20 +33,20 @@ class ConfigService {
 
     // Fall back to environment-based configuration
     const backendMode =
-      (import.meta.env.VITE_BACKEND_MODE as 'dummy' | 'api') || 'dummy';
+      (import.meta.env.VITE_BACKEND_MODE as "dummy" | "api") || "dummy";
     const updateMode =
       (import.meta.env.VITE_UPDATE_MODE as
-        | 'polling'
-        | 'sse'
-        | 'websocket'
-        | 'push') || 'polling';
+        | "polling"
+        | "sse"
+        | "websocket"
+        | "push") || "polling";
     const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
     const wsBaseUrl = import.meta.env.VITE_WS_BASE_URL;
     const pollingInterval = parseInt(
-      import.meta.env.VITE_POLLING_INTERVAL || '5000'
+      import.meta.env.VITE_POLLING_INTERVAL || "5000",
     );
     const maxReconnectAttempts = parseInt(
-      import.meta.env.VITE_MAX_RECONNECT_ATTEMPTS || '5'
+      import.meta.env.VITE_MAX_RECONNECT_ATTEMPTS || "5",
     );
 
     const config = {
@@ -118,7 +118,7 @@ class ConfigService {
     try {
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(config));
     } catch (error) {
-      console.warn('Failed to save config to localStorage:', error);
+      console.warn("Failed to save config to localStorage:", error);
     }
   }
 
@@ -132,7 +132,7 @@ class ConfigService {
         return JSON.parse(saved) as AppConfig;
       }
     } catch (error) {
-      console.warn('Failed to load config from localStorage:', error);
+      console.warn("Failed to load config from localStorage:", error);
     }
     return null;
   }
@@ -158,11 +158,11 @@ class ConfigService {
    * Notify all listeners of configuration changes
    */
   private notifyListeners(): void {
-    this.listeners.forEach(listener => {
+    this.listeners.forEach((listener) => {
       try {
         listener(this.getConfig());
       } catch (error) {
-        console.error('Error in config listener:', error);
+        console.error("Error in config listener:", error);
       }
     });
   }
@@ -176,22 +176,22 @@ class ConfigService {
   } {
     const errors: string[] = [];
 
-    if (config.backendMode === 'api' && !config.apiBaseUrl) {
+    if (config.backendMode === "api" && !config.apiBaseUrl) {
       errors.push('API base URL is required when backend mode is "api"');
     }
 
-    if (config.updateMode === 'websocket' && !config.wsBaseUrl) {
+    if (config.updateMode === "websocket" && !config.wsBaseUrl) {
       errors.push(
-        'WebSocket base URL is required when update mode is "websocket"'
+        'WebSocket base URL is required when update mode is "websocket"',
       );
     }
 
     if (config.pollingInterval && config.pollingInterval < 1000) {
-      errors.push('Polling interval must be at least 1000ms');
+      errors.push("Polling interval must be at least 1000ms");
     }
 
     if (config.maxReconnectAttempts && config.maxReconnectAttempts < 1) {
-      errors.push('Max reconnect attempts must be at least 1');
+      errors.push("Max reconnect attempts must be at least 1");
     }
 
     return {
@@ -205,8 +205,8 @@ class ConfigService {
    */
   public getAvailableOptions() {
     return {
-      backendModes: ['dummy', 'api'] as const,
-      updateModes: ['polling', 'sse', 'websocket', 'push'] as const,
+      backendModes: ["dummy", "api"] as const,
+      updateModes: ["polling", "sse", "websocket", "push"] as const,
       defaultConfig: this.loadInitialConfig(),
     };
   }
