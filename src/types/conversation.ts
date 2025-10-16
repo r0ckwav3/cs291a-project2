@@ -39,7 +39,7 @@ export interface Conversation {
   assignedExpertUsername?: string | null;
   createdAt: string;
   updatedAt: string;
-  lastMessageAt: string;
+  lastMessageAt?: string | null; // changed this because the endpoint gives back null sometimes
   unreadCount: number;
 }
 
@@ -52,4 +52,28 @@ export interface UpdateConversationRequest {
   title?: string;
   status?: Conversation["status"];
   assignedExpertId?: string;
+}
+
+export function isConversation(obj: any): obj is Conversation {
+  return (
+    typeof obj.id === "string" &&
+    typeof obj.title === "string" &&
+    (obj.status === "waiting" ||
+      obj.status === "active" ||
+      obj.status === "resolved") &&
+    typeof obj.questionerId === "string" &&
+    typeof obj.questionerUsername === "string" &&
+    (obj.assignedExpertId === undefined ||
+      obj.assignedExpertId === null ||
+      typeof obj.assignedExpertId === "string") &&
+    (obj.assignedExpertUsername === undefined ||
+      obj.assignedExpertUsername === null ||
+      typeof obj.assignedExpertUsername === "string") &&
+    typeof obj.createdAt === "string" &&
+    typeof obj.updatedAt === "string" &&
+    (obj.lastMessageAt === undefined ||
+      obj.lastMessageAt === null ||
+      typeof obj.lastMessageAt === "string") &&
+    typeof obj.unreadCount === "number"
+  );
 }

@@ -1,4 +1,5 @@
 import type { Conversation } from "./conversation";
+import { isConversation } from "./conversation";
 
 export interface ExpertProfile {
   id: string;
@@ -7,9 +8,44 @@ export interface ExpertProfile {
   knowledgeBaseLinks: string[];
 }
 
+export function isExpertProfile(obj: unknown): obj is ExpertProfile {
+  if (typeof obj !== "object" || obj === null) {
+    return false;
+  }
+  const maybeProfile = obj as {
+    id?: unknown;
+    userId?: unknown;
+    bio?: unknown;
+    knowledgeBaseLinks?: unknown;
+  };
+  return (
+    typeof maybeProfile.id === "string" &&
+    typeof maybeProfile.userId === "string" &&
+    typeof maybeProfile.bio === "string" &&
+    Array.isArray(maybeProfile.knowledgeBaseLinks) &&
+    maybeProfile.knowledgeBaseLinks.every(link => typeof link === "string")
+  );
+}
+
 export interface ExpertQueue {
   waitingConversations: Conversation[]; // conversations waiting for some expert to claim them
   assignedConversations: Conversation[]; // conversations this expert has claimed and is actively working on
+}
+
+export function isExpertQueue(obj: unknown): obj is ExpertQueue {
+  if (typeof obj !== "object" || obj === null) {
+    return false;
+  }
+  const maybeQueue = obj as {
+    waitingConversations?: unknown;
+    assignedConversations?: unknown;
+  };
+  return (
+    Array.isArray(maybeQueue.waitingConversations) &&
+    Array.isArray(maybeQueue.assignedConversations) &&
+    maybeQueue.waitingConversations.every(isConversation) &&
+    maybeQueue.assignedConversations.every(isConversation)
+  );
 }
 
 /**

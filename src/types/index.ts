@@ -8,9 +8,11 @@ export type {
   CreateConversationRequest,
   UpdateConversationRequest,
 } from "./conversation";
+export { isConversation } from "./conversation";
 
 // Message types
 export type { Message, SendMessageRequest, MessageUpdate } from "./message";
+export { isMessage } from "./message";
 
 // Expert types
 export type {
@@ -19,6 +21,7 @@ export type {
   ExpertAssignment,
   UpdateExpertProfileRequest,
 } from "./expert";
+export { isExpertQueue, isExpertProfile } from "./expert";
 
 // Service types
 export type {

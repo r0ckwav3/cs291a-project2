@@ -10,6 +10,12 @@ import type {
   ExpertAssignment,
   UpdateExpertProfileRequest,
 } from "@/types";
+import {
+  isConversation,
+  isMessage,
+  isExpertQueue,
+  isExpertProfile,
+} from "@/types";
 import TokenManager from "@/services/TokenManager";
 
 interface ApiChatServiceConfig {
@@ -35,53 +41,100 @@ export class ApiChatService implements ChatService {
     endpoint: string,
     options: RequestInit = {},
   ): Promise<T> {
-    // TODO: Implement the makeRequest helper method
-    // This should:
-    // 1. Construct the full URL using this.baseUrl and endpoint
-    // 2. Get the token using this.tokenManager.getToken()
-    // 3. Set up default headers including 'Content-Type': 'application/json'
-    // 4. Add Authorization header with Bearer token if token exists
-    // 5. Make the fetch request with the provided options
-    // 6. Handle non-ok responses by throwing an error with status and message
-    // 7. Return the parsed JSON response
+    // 1. Construct the full URL
+    const url = `${this.baseUrl}${endpoint}`;
 
-    throw new Error("makeRequest method not implemented");
+    // 2. Get the token
+    const token = this.tokenManager.getToken();
+    let authorization = "";
+    if (token != null) {
+      authorization = `Basic ${token}`;
+    }
+
+    // 3. Set up default headers
+    // 4. Add Authorization header with Bearer token if token exists
+    const defaultHeaders: HeadersInit = {
+      Authorization: authorization,
+      "Content-Type": "application/json",
+      ...(options.headers || {}),
+    };
+
+    // 5. Make the fetch request with the provided options
+    const fetchOptions: RequestInit = {
+      ...options,
+      headers: defaultHeaders,
+      credentials: "include",
+    };
+
+    const response = await fetch(url, fetchOptions);
+
+    // 6. Handle non-ok responses
+    if (!response.ok) {
+      let errorMessage;
+      try {
+        const errorData = await response.json();
+        if (errorData && errorData.error) {
+          errorMessage = errorData.error;
+        } else if (errorData && errorData.errors) {
+          errorMessage = JSON.stringify(errorData.errors);
+        }
+      } catch {
+        errorMessage = "Unknown error";
+      }
+      throw new Error(`Request failed (${response.status}): ${errorMessage}`);
+    }
+
+    // 7. Return the parsed JSON response
+    return response.json();
   }
 
   // Conversations
   async getConversations(): Promise<Conversation[]> {
-    // TODO: Implement getConversations method
     // This should:
     // 1. Make a request to the appropriate endpoint
     // 2. Return the array of conversations
-    //
-    // See API_SPECIFICATION.md for endpoint details
-
-    throw new Error("getConversations method not implemented");
+    const response = await this.makeRequest<Conversation[]>("/conversations");
+    for (const i in response) {
+      const r = response[i];
+      if (!isConversation(r)) {
+        throw new Error("response is in an unexpected format");
+      }
+    }
+    return response;
   }
 
-  async getConversation(_id: string): Promise<Conversation> {
-    // TODO: Implement getConversation method
+  async getConversation(id: string): Promise<Conversation> {
     // This should:
     // 1. Make a request to the appropriate endpoint
     // 2. Return the conversation object
-    //
-    // See API_SPECIFICATION.md for endpoint details
-
-    throw new Error("getConversation method not implemented");
+    const response = await this.makeRequest<Conversation>(
+      `/conversations/${id}`,
+    );
+    if (!isConversation(response)) {
+      throw new Error("response is in an unexpected format");
+    }
+    return response;
   }
 
   async createConversation(
     request: CreateConversationRequest,
   ): Promise<Conversation> {
-    // TODO: Implement createConversation method
     // This should:
     // 1. Make a request to the appropriate endpoint
     // 2. Return the created conversation object
-    //
-    // See API_SPECIFICATION.md for endpoint details
-
-    throw new Error("createConversation method not implemented");
+    const body = { title: request.title };
+    const options: RequestInit = {
+      method: "POST",
+      body: JSON.stringify(body),
+    };
+    const response = await this.makeRequest<Conversation>(
+      "/conversations",
+      options,
+    );
+    if (!isConversation(response)) {
+      throw new Error("response is in an unexpected format");
+    }
+    return response;
   }
 
   async updateConversation(
@@ -101,25 +154,38 @@ export class ApiChatService implements ChatService {
 
   // Messages
   async getMessages(conversationId: string): Promise<Message[]> {
-    // TODO: Implement getMessages method
     // This should:
     // 1. Make a request to the appropriate endpoint
     // 2. Return the array of messages
-    //
-    // See API_SPECIFICATION.md for endpoint details
-
-    throw new Error("getMessages method not implemented");
+    const response = await this.makeRequest<Message[]>(
+      `/conversations/${conversationId}/messages`,
+    );
+    for (const i in response) {
+      const r = response[i];
+      if (!isMessage(r)) {
+        throw new Error("response is in an unexpected format");
+      }
+    }
+    return response;
   }
 
   async sendMessage(request: SendMessageRequest): Promise<Message> {
-    // TODO: Implement sendMessage method
     // This should:
     // 1. Make a request to the appropriate endpoint
     // 2. Return the created message object
-    //
-    // See API_SPECIFICATION.md for endpoint details
-
-    throw new Error("sendMessage method not implemented");
+    const body = {
+      conversationId: request.conversationId,
+      content: request.content,
+    };
+    const options: RequestInit = {
+      method: "POST",
+      body: JSON.stringify(body),
+    };
+    const response = await this.makeRequest<Message>(`/messages`, options);
+    if (!isMessage(response)) {
+      throw new Error("response is in an unexpected format");
+    }
+    return response;
   }
 
   async markMessageAsRead(messageId: string): Promise<void> {
@@ -130,47 +196,64 @@ export class ApiChatService implements ChatService {
 
   // Expert-specific operations
   async getExpertQueue(): Promise<ExpertQueue> {
-    // TODO: Implement getExpertQueue method
     // This should:
     // 1. Make a request to the appropriate endpoint
     // 2. Return the expert queue object with waitingConversations and assignedConversations
-    //
-    // See API_SPECIFICATION.md for endpoint details
-
-    throw new Error("getExpertQueue method not implemented");
+    const response = await this.makeRequest<Message>(`/expert/queue`);
+    if (!isExpertQueue(response)) {
+      throw new Error("response is in an unexpected format");
+    }
+    return response;
   }
 
   async claimConversation(conversationId: string): Promise<void> {
-    // TODO: Implement claimConversation method
     // This should:
     // 1. Make a request to the appropriate endpoint
     // 2. Return void (no response body expected)
-    //
-    // See API_SPECIFICATION.md for endpoint details
-
-    throw new Error("claimConversation method not implemented");
+    const options: RequestInit = {
+      method: "POST",
+    };
+    const response = await this.makeRequest<any>(
+      `/expert/conversations/${conversationId}/claim`,
+      options,
+    );
+    if (response.success === undefined) {
+      throw new Error("response is in an unexpected format");
+    }
+    return;
   }
 
   async unclaimConversation(conversationId: string): Promise<void> {
-    // TODO: Implement unclaimConversation method
     // This should:
     // 1. Make a request to the appropriate endpoint
     // 2. Return void (no response body expected)
-    //
-    // See API_SPECIFICATION.md for endpoint details
-
-    throw new Error("unclaimConversation method not implemented");
+    const options: RequestInit = {
+      method: "POST",
+    };
+    const response = await this.makeRequest<any>(
+      `/expert/conversations/${conversationId}/unclaim`,
+      options,
+    );
+    if (response.success === undefined) {
+      throw new Error("response is in an unexpected format");
+    }
+    return;
   }
 
   async getExpertProfile(): Promise<ExpertProfile> {
-    // TODO: Implement getExpertProfile method
     // This should:
     // 1. Make a request to the appropriate endpoint
     // 2. Return the expert profile object
-    //
-    // See API_SPECIFICATION.md for endpoint details
-
-    throw new Error("getExpertProfile method not implemented");
+    const response = await this.makeRequest<ExpertProfile>(`/expert/profile`);
+    if (!response.bio) {
+      response.bio = "";
+    }
+    console.log(response);
+    if (!isExpertProfile(response)) {
+      throw new Error("response is in an unexpected format");
+    }
+    console.log("finished loading");
+    return response;
   }
 
   async updateExpertProfile(
