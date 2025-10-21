@@ -21,7 +21,7 @@ export type {
   ExpertAssignment,
   UpdateExpertProfileRequest,
 } from "./expert";
-export { isExpertQueue, isExpertProfile } from "./expert";
+export { isExpertQueue, isExpertProfile, isExpertAssignment } from "./expert";
 
 // Service types
 export type {

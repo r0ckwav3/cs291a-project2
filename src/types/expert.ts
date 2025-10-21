@@ -87,3 +87,27 @@ export interface UpdateExpertProfileRequest {
   bio?: string;
   knowledgeBaseLinks?: string[];
 }
+
+export function isExpertAssignment(obj: unknown): obj is ExpertAssignment {
+  if (typeof obj !== "object" || obj === null) {
+    return false;
+  }
+  const maybeAssignment = obj as {
+    id?: unknown;
+    conversationId?: unknown;
+    expertId?: unknown;
+    assignedAt?: unknown;
+    unassignedAt?: unknown;
+    status?: unknown;
+  };
+  return (
+    typeof maybeAssignment.id === "string" &&
+    typeof maybeAssignment.conversationId === "string" &&
+    typeof maybeAssignment.expertId === "string" &&
+    typeof maybeAssignment.assignedAt === "string" &&
+    (maybeAssignment.unassignedAt === undefined || typeof maybeAssignment.unassignedAt === "string") &&
+    (maybeAssignment.status === "active" ||
+      maybeAssignment.status === "unassigned" ||
+      maybeAssignment.status === "resolved")
+  );
+}

@@ -15,6 +15,7 @@ import {
   isMessage,
   isExpertQueue,
   isExpertProfile,
+  isExpertAssignment,
 } from "@/types";
 import TokenManager from "@/services/TokenManager";
 
@@ -94,11 +95,8 @@ export class ApiChatService implements ChatService {
     // 1. Make a request to the appropriate endpoint
     // 2. Return the array of conversations
     const response = await this.makeRequest<Conversation[]>("/conversations");
-    for (const i in response) {
-      const r = response[i];
-      if (!isConversation(r)) {
-        throw new Error("response is in an unexpected format");
-      }
+    if (!(Array.isArray(response) && response.every(isConversation))) {
+      throw new Error("response is in an unexpected format");
     }
     return response;
   }
@@ -160,11 +158,8 @@ export class ApiChatService implements ChatService {
     const response = await this.makeRequest<Message[]>(
       `/conversations/${conversationId}/messages`,
     );
-    for (const i in response) {
-      const r = response[i];
-      if (!isMessage(r)) {
-        throw new Error("response is in an unexpected format");
-      }
+    if (!(Array.isArray(response) && response.every(isMessage))) {
+      throw new Error("response is in an unexpected format");
     }
     return response;
   }
@@ -248,35 +243,47 @@ export class ApiChatService implements ChatService {
     if (!response.bio) {
       response.bio = "";
     }
-    console.log(response);
     if (!isExpertProfile(response)) {
       throw new Error("response is in an unexpected format");
     }
-    console.log("finished loading");
     return response;
   }
 
   async updateExpertProfile(
     request: UpdateExpertProfileRequest,
   ): Promise<ExpertProfile> {
-    // TODO: Implement updateExpertProfile method
     // This should:
     // 1. Make a request to the appropriate endpoint
     // 2. Return the updated expert profile object
-    //
-    // See API_SPECIFICATION.md for endpoint details
 
-    throw new Error("updateExpertProfile method not implemented");
+    const body = {
+      bio: request.bio,
+      knowledgeBaseLinks: request.knowledgeBaseLinks,
+    };
+    const options: RequestInit = {
+      method: "PUT",
+      body: JSON.stringify(body),
+    };
+    const response = await this.makeRequest<Conversation>(
+      "/expert/profile",
+      options,
+    );
+    if (!isExpertProfile(response)) {
+      throw new Error("response is in an unexpected format");
+    }
+    return response;
   }
 
   async getExpertAssignmentHistory(): Promise<ExpertAssignment[]> {
-    // TODO: Implement getExpertAssignmentHistory method
     // This should:
     // 1. Make a request to the appropriate endpoint
     // 2. Return the array of expert assignments
-    //
-    // See API_SPECIFICATION.md for endpoint details
-
-    throw new Error("getExpertAssignmentHistory method not implemented");
+    const response = await this.makeRequest<ExpertAssignment[]>(
+      `/expert/assignments/history`,
+    );
+    if (!(Array.isArray(response) && response.every(isExpertAssignment))) {
+      throw new Error("response is in an unexpected format");
+    }
+    return response;
   }
 }
