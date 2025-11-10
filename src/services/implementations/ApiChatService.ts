@@ -96,7 +96,7 @@ export class ApiChatService implements ChatService {
     // 2. Return the array of conversations
     const response = await this.makeRequest<Conversation[]>("/conversations");
     if (!(Array.isArray(response) && response.every(isConversation))) {
-      throw new Error("response is in an unexpected format");
+      throw new Error("getConversations response is in an unexpected format");
     }
     return response;
   }
@@ -109,7 +109,7 @@ export class ApiChatService implements ChatService {
       `/conversations/${id}`,
     );
     if (!isConversation(response)) {
-      throw new Error("response is in an unexpected format");
+      throw new Error("getConversation response is in an unexpected format");
     }
     return response;
   }
@@ -130,7 +130,7 @@ export class ApiChatService implements ChatService {
       options,
     );
     if (!isConversation(response)) {
-      throw new Error("response is in an unexpected format");
+      throw new Error("createConversation response is in an unexpected format");
     }
     return response;
   }
@@ -159,7 +159,7 @@ export class ApiChatService implements ChatService {
       `/conversations/${conversationId}/messages`,
     );
     if (!(Array.isArray(response) && response.every(isMessage))) {
-      throw new Error("response is in an unexpected format");
+      throw new Error("getMessages response is in an unexpected format");
     }
     return response;
   }
@@ -178,7 +178,7 @@ export class ApiChatService implements ChatService {
     };
     const response = await this.makeRequest<Message>(`/messages`, options);
     if (!isMessage(response)) {
-      throw new Error("response is in an unexpected format");
+      throw new Error("sendMessage response is in an unexpected format");
     }
     return response;
   }
@@ -196,7 +196,7 @@ export class ApiChatService implements ChatService {
     // 2. Return the expert queue object with waitingConversations and assignedConversations
     const response = await this.makeRequest<Message>(`/expert/queue`);
     if (!isExpertQueue(response)) {
-      throw new Error("response is in an unexpected format");
+      throw new Error("getExpertQueue response is in an unexpected format");
     }
     return response;
   }
@@ -213,7 +213,7 @@ export class ApiChatService implements ChatService {
       options,
     );
     if (response.success === undefined) {
-      throw new Error("response is in an unexpected format");
+      throw new Error("claimConversation response is in an unexpected format");
     }
     return;
   }
@@ -230,7 +230,9 @@ export class ApiChatService implements ChatService {
       options,
     );
     if (response.success === undefined) {
-      throw new Error("response is in an unexpected format");
+      throw new Error(
+        "unclaimConversation response is in an unexpected format",
+      );
     }
     return;
   }
@@ -244,7 +246,7 @@ export class ApiChatService implements ChatService {
       response.bio = "";
     }
     if (!isExpertProfile(response)) {
-      throw new Error("response is in an unexpected format");
+      throw new Error("getExpertProfile response is in an unexpected format");
     }
     return response;
   }
@@ -269,7 +271,9 @@ export class ApiChatService implements ChatService {
       options,
     );
     if (!isExpertProfile(response)) {
-      throw new Error("response is in an unexpected format");
+      throw new Error(
+        "updateExpertProfile response is in an unexpected format",
+      );
     }
     return response;
   }
@@ -282,7 +286,9 @@ export class ApiChatService implements ChatService {
       `/expert/assignments/history`,
     );
     if (!(Array.isArray(response) && response.every(isExpertAssignment))) {
-      throw new Error("response is in an unexpected format");
+      throw new Error(
+        "getExpertAssignmentHistory response is in an unexpected format",
+      );
     }
     return response;
   }

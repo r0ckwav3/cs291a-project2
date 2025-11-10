@@ -82,7 +82,7 @@ export class ApiAuthService implements AuthService {
       options,
     );
     if (!isLoginResponse(response)) {
-      throw new Error("response is in an unexpected format");
+      throw new Error("login response is in an unexpected format");
     }
 
     this.tokenManager.setToken(response.token);
@@ -117,7 +117,7 @@ export class ApiAuthService implements AuthService {
       options,
     );
     if (!isLoginResponse(response)) {
-      throw new Error("response is in an unexpected format");
+      throw new Error("register response is in an unexpected format");
     }
 
     this.tokenManager.setToken(response.token);
@@ -163,7 +163,7 @@ export class ApiAuthService implements AuthService {
       options,
     );
     if (!isLoginResponse(response)) {
-      throw new Error("response is in an unexpected format");
+      throw new Error("refresh response is in an unexpected format");
     }
 
     this.tokenManager.setToken(response.token);
@@ -195,7 +195,7 @@ export class ApiAuthService implements AuthService {
       );
 
       if (!isLoginResponseUser(response)) {
-        throw new Error("response is in an unexpected format");
+        throw new Error("getCurrentUser response is in an unexpected format");
       }
 
       const user: User = {
